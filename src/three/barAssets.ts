@@ -12,7 +12,7 @@ async function build(tier: Tier) {
   const { body, caps } = buildBarGeometry(maps, t.radial, t.segments);
   if (import.meta.env.DEV) console.info(`[bar] ${tier} tier built in ${Math.round(performance.now() - t0)}ms (${maps.w}×${maps.h} map)`);
   const mat = createBarMaterials(maps.normalMap);
-  return { body, caps, bodyMat: mat.body, capMat: mat.cap };
+  return { body, caps, bodyMat: mat.body, capMat: mat.cap, normalMap: maps.normalMap };
 }
 
 const cache = new Map<Tier, Promise<BarAssets>>();

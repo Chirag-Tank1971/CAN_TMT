@@ -14,6 +14,16 @@ export const en = {
     ctaSecondary: 'WhatsApp Us',
     scrollHint: 'Scroll to explore',
   },
+  story: {
+    chapters: ['The Bar', 'Grip', 'Identity', 'Inside', 'Flex', 'Your Home'],
+    scroll: 'Scroll',
+    ch1: { tag: 'Yes, we CAN build it.', title: 'Steel that holds\nyour home together', body: 'CAN TMT bars for homes and every kind of construction. Mazboot Neev, Mazboot Ghar.' },
+    ch2: { tag: '01 — Grip', title: 'Grip that\ndoesn\'t let go', body: 'Angled ribs lock into concrete, so steel and concrete work as one.', ribs: 'Angled ribs lock into concrete', longRib: 'Longitudinal rib' },
+    ch3: { tag: '02 — Identity', title: 'Every bar\ncarries our mark', body: 'Look for the raised CAN TMT mark along the bar. No mark, not ours.', mark: 'Embossed CAN TMT mark' },
+    ch4: { tag: '03 — Inside', title: 'Hard outside.\nTough inside.', body: 'Quenching hardens the outer ring. The core stays soft and ductile, so the bar is strong and still bends.', ring: 'Hard tempered outer ring', core: 'Soft, ductile core', hot: 'Hot core', cool: 'Quenched skin' },
+    ch5: { tag: '04 — Flex', title: 'Bends before\nit breaks', body: 'Ductility lets the bar absorb shocks. That is what keeps a structure standing in an earthquake.' },
+    ch6: { tag: '05 — Your Home', title: 'From one bar\nto your whole home', body: 'Columns, beams and stirrups. Built with CAN TMT, built to last.' },
+  },
   why: {
     sectionTag: 'WHY CAN TMT',
     heading: 'Every Bar, Built to Last',

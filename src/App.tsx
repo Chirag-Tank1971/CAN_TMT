@@ -4,7 +4,7 @@ import { initSmoothScroll } from './lib/scroll';
 import { Navbar } from './components/layout/Navbar';
 import { FloatingWhatsApp } from './components/layout/FloatingWhatsApp';
 import { Footer } from './components/layout/Footer';
-import { Hero } from './components/sections/Hero';
+import { Story } from './components/sections/Story';
 import { WhyCAN } from './components/sections/WhyCAN';
 import { CrossSection } from './components/sections/CrossSection';
 import { Products } from './components/sections/Products';
@@ -25,7 +25,7 @@ export default function App() {
       </a>
       <Navbar />
       <main id="main-content">
-        <Hero scrollPhase={0} />
+        <Story />
         <WhyCAN />
         <CrossSection />
         <Products />

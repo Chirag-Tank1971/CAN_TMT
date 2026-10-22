@@ -212,6 +212,47 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
+/* ─── Story (pinned 3D section) ─────────────────────────────────── */
+.story-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6.5vw, 5.75rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.story-title span:last-child { color: var(--color-accent); }
+.story-body { margin-top: 1.25rem; max-width: 30rem; color: #c9ccd1; font-size: clamp(1rem, 1.4vw, 1.125rem); }
+
+/* Callout pinned to a 3D point: dot at the point, line drawn by --draw (0→1), label at the line's end */
+.callout { position: absolute; left: 0; top: 0; will-change: transform; }
+.callout-dot {
+  position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--color-accent); background: rgba(255,106,0,.25);
+  opacity: var(--draw); transform: scale(var(--draw));
+}
+.callout-line {
+  position: absolute; left: 0; top: 0; width: 110px; height: 1px; background: var(--color-accent);
+  transform-origin: 0 0; transform: rotate(-32deg) scaleX(var(--draw));
+}
+.callout-left .callout-line { transform: rotate(-148deg) scaleX(var(--draw)); }
+.callout-label {
+  position: absolute; top: -78px; left: 96px; white-space: nowrap;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #fff; padding: .25rem .6rem; background: rgba(14,14,16,.7); border-left: 2px solid var(--color-accent);
+  opacity: var(--draw); transform: translateY(calc((1 - var(--draw)) * 8px));
+}
+.callout-left .callout-label { left: auto; right: 96px; border-left: 0; border-right: 2px solid var(--color-accent); }
+@media (max-width: 640px) {
+  .callout-line { width: 60px; }
+  .callout-label { top: -58px; left: 50px; font-size: .75rem; white-space: normal; width: 7.5rem; }
+  .callout-left .callout-label { right: 50px; }
+}
+
+@keyframes scrollCue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+.animate-scroll-cue { animation: scrollCue 2s cubic-bezier(.65,0,.35,1) infinite; }
+
 /* ─── Divider ───────────────────────────────────────────────────── */
 .steel-divider {
   height: 1px;
