@@ -35,9 +35,11 @@ export default {
         },
       },
       fontFamily: {
-        barlow: ['"Barlow Condensed"', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
+        barlow: ['"Barlow Condensed"', '"Noto Sans Devanagari"', 'sans-serif'],
+        inter: ['Inter', '"Noto Sans Devanagari"', 'system-ui', 'sans-serif'],
       },
+      // numeric weight classes (font-700) used across components; 900 maps to 800, the heaviest loaded file
+      fontWeight: { 300: '300', 400: '400', 500: '500', 600: '600', 700: '700', 800: '800', 900: '800' },
       backgroundImage: {
         'grain': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\")",
       },

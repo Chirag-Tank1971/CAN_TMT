@@ -191,10 +191,16 @@ export const hi: Translations = {
       },
     ],
   },
+  wa: {
+    label: 'WhatsApp पर बात करें',
+    general: 'नमस्ते CAN TMT! मुझे अपने काम के लिए TMT सरिया चाहिए।',
+    quote: 'नमस्ते CAN TMT! मुझे TMT सरिया का रेट चाहिए।',
+  },
   footer: {
     tagline: '"मजबूत नींव, मजबूत घर।"',
-    copyright: '© 2024 CAN TMT. सर्वाधिकार सुरक्षित।',
-    links: ['गोपनीयता नीति', 'उपयोग की शर्तें', 'Sitemap'],
+    copyright: 'सर्वाधिकार सुरक्षित।',
+    quickLinks: 'जल्दी जाएँ',
+    contact: 'संपर्क',
     isoNote: '[TODO: प्रमाण पत्र और ISO/BIS marks जोड़ें]',
   },
 };

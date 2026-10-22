@@ -189,10 +189,16 @@ export const en = {
       },
     ],
   },
+  wa: {
+    label: 'Chat on WhatsApp',
+    general: 'Hello CAN TMT! I need TMT bars for my project.',
+    quote: 'Hello CAN TMT! I would like a quote for TMT bars.',
+  },
   footer: {
     tagline: '"Mazboot Neev, Mazboot Ghar."',
-    copyright: '© 2024 CAN TMT. All rights reserved.',
-    links: ['Privacy Policy', 'Terms of Use', 'Sitemap'],
+    copyright: 'All rights reserved.',
+    quickLinks: 'Quick Links',
+    contact: 'Contact',
     isoNote: '[TODO: Add certifications and ISO/BIS marks]',
   },
 };

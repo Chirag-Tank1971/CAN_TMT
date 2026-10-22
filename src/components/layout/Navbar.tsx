@@ -1,98 +1,73 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLang } from '../../lib/LangContext';
+import { scrollToTarget } from '../../lib/scroll';
+import { Logo } from './Logo';
 
-interface NavbarProps {
-  scrolled: boolean;
-}
+const HREFS = ['#why', '#products', '#applications', '#contact'];
 
-export function Navbar({ scrolled }: NavbarProps) {
+export function Navbar() {
   const { t, lang, toggleLang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const navLinks = [
-    { label: t.nav.links[0], href: '#why' },
-    { label: t.nav.links[1], href: '#products' },
-    { label: t.nav.links[2], href: '#applications' },
-    { label: t.nav.links[3], href: '#contact' },
-  ];
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const handleQuote = () => {
-    const msg = encodeURIComponent(
-      'Hello CAN TMT! I would like to get a quote for TMT bars.'
-    );
-    window.open(`https://wa.me/[NUMBER]?text=${msg}`, '_blank');
+  const go = (href: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    scrollToTarget(href);
   };
+
+  const LangToggle = (
+    <button
+      onClick={toggleLang}
+      className="flex items-center border border-steel-600/50 rounded-sm font-barlow font-700 text-xs tracking-widest overflow-hidden"
+      aria-label={lang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+    >
+      <span className={`px-2 py-1 ${lang === 'en' ? 'bg-orange-400 text-white' : 'text-steel-400'}`}>EN</span>
+      <span className={`px-2 py-1 ${lang === 'hi' ? 'bg-orange-400 text-white' : 'text-steel-400'}`}>हिं</span>
+    </button>
+  );
 
   return (
     <header
-      role="banner"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'bg-charcoal-DEFAULT/80 backdrop-blur-md border-b border-steel-700/30'
-          : 'bg-transparent'
+      className={`fixed top-0 inset-x-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 border-b ${
+        scrolled || menuOpen ? 'bg-charcoal/75 backdrop-blur-md border-steel-700/40' : 'bg-transparent border-transparent'
       }`}
     >
-      <nav
-        className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16 md:h-20"
-        aria-label="Main navigation"
-      >
-        {/* Logo */}
-        <a href="#hero" className="flex items-center gap-2 group" aria-label="CAN TMT — Home">
-          <span className="relative">
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-              {/* Rod-inspired C shape */}
-              <rect x="2" y="14" width="32" height="4" rx="2" fill="#FF6A00" />
-              <rect x="2" y="14" width="10" height="4" rx="2" fill="#FF6A00" />
-              <rect x="2" y="8" width="26" height="3" rx="1.5" fill="#FF6A00" opacity="0.6" />
-              <rect x="2" y="21" width="26" height="3" rx="1.5" fill="#FF6A00" opacity="0.6" />
-            </svg>
-          </span>
-          <span className="font-barlow font-900 text-xl md:text-2xl tracking-widest text-white group-hover:text-orange-400 transition-colors">
-            CAN TMT
-          </span>
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16 md:h-20" aria-label="Main">
+        <a href="#top" onClick={go('#top')} aria-label="CAN TMT home">
+          <Logo />
         </a>
 
-        {/* Desktop Links */}
-        <ul className="hidden md:flex items-center gap-8 list-none" role="list">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="font-barlow font-700 text-sm tracking-widest uppercase text-steel-300 hover:text-orange-400 transition-colors relative group"
-              >
-                {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-orange-400 transition-all group-hover:w-full" />
+        <ul className="hidden md:flex items-center gap-8" role="list">
+          {HREFS.map((href, i) => (
+            <li key={href}>
+              <a href={href} onClick={go(href)}
+                className="font-barlow font-700 text-sm tracking-widest uppercase text-steel-300 hover:text-orange-400 transition-colors">
+                {t.nav.links[i]}
               </a>
             </li>
           ))}
         </ul>
 
-        {/* Right controls */}
         <div className="flex items-center gap-3">
-          {/* Lang toggle */}
-          <button
-            onClick={toggleLang}
-            className="hidden md:flex items-center gap-1 text-xs font-barlow font-700 tracking-widest uppercase text-steel-400 hover:text-orange-400 transition-colors border border-steel-700/40 rounded px-2 py-1"
-            aria-label={lang === 'en' ? 'Switch to Hindi' : 'Switch to English'}
-          >
-            {lang === 'en' ? 'हि' : 'EN'}
-          </button>
-
-          <button
-            onClick={handleQuote}
-            className="btn-primary hidden md:flex text-sm"
-            aria-label="Get a Quote via WhatsApp"
-          >
+          {LangToggle}
+          <a href="#contact" onClick={go('#contact')} className="btn-primary hidden md:inline-flex !py-2.5 !px-5 text-sm">
             {t.nav.cta}
-          </button>
-
-          {/* Mobile hamburger */}
+          </a>
           <button
             className="md:hidden flex flex-col gap-1.5 p-2"
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
             <span className={`block w-6 h-0.5 bg-white transition-transform ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
             <span className={`block w-6 h-0.5 bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
@@ -101,42 +76,29 @@ export function Navbar({ scrolled }: NavbarProps) {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
+          <motion.ul
+            id="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-charcoal-50/95 backdrop-blur-md border-t border-steel-700/30"
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="md:hidden overflow-hidden border-t border-steel-700/40 py-2"
+            role="list"
           >
-            <ul className="flex flex-col py-4 list-none">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="block px-6 py-3 font-barlow font-700 tracking-widest uppercase text-steel-300 hover:text-orange-400 hover:bg-orange-400/5 transition-colors"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-              <li className="px-6 pt-4">
-                <button onClick={handleQuote} className="btn-primary w-full justify-center">
-                  {t.nav.cta}
-                </button>
+            {HREFS.map((href, i) => (
+              <li key={href}>
+                <a href={href} onClick={go(href)}
+                  className="block px-6 py-3 font-barlow font-700 tracking-widest uppercase text-steel-200 hover:text-orange-400">
+                  {t.nav.links[i]}
+                </a>
               </li>
-              <li className="px-6 pt-3">
-                <button
-                  onClick={() => { toggleLang(); setMenuOpen(false); }}
-                  className="text-sm font-barlow font-700 tracking-widest uppercase text-steel-400 hover:text-orange-400"
-                >
-                  {lang === 'en' ? 'हिंदी में देखें' : 'View in English'}
-                </button>
-              </li>
-            </ul>
-          </motion.div>
+            ))}
+            <li className="px-6 py-3">
+              <a href="#contact" onClick={go('#contact')} className="btn-primary w-full justify-center">{t.nav.cta}</a>
+            </li>
+          </motion.ul>
         )}
       </AnimatePresence>
     </header>

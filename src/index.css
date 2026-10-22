@@ -10,15 +10,14 @@
   --color-steel: #8e99a4;
   --color-text: #f0ede8;
   --color-text-muted: #8e99a4;
-  --font-display: 'Barlow Condensed', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: 'Barlow Condensed', 'Noto Sans Devanagari', 'Mangal', sans-serif;
+  --font-body: 'Inter', 'Noto Sans Devanagari', 'Mangal', system-ui, sans-serif;
 }
 
 /* ─── Reset & Base ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
 }
@@ -67,6 +66,14 @@ h1, h2, h3, h4, h5, h6 {
 /* ─── Focus visible ─────────────────────────────────────────────── */
 :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 3px; }
 
+.skip-link {
+  position: fixed; top: 0.5rem; left: 0.5rem; z-index: 100;
+  padding: 0.5rem 1rem; background: var(--color-accent); color: #fff;
+  font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
 /* ─── Utility Classes ───────────────────────────────────────────── */
 .section-tag {
   font-family: var(--font-display);
@@ -90,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .display-heading {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 800;
   font-size: clamp(3rem, 8vw, 7rem);
   line-height: 0.95;
   text-transform: uppercase;
@@ -142,6 +149,8 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 8px 40px rgba(255,106,0,0.15);
 }
 
+/* in components layer so Tailwind utilities (hidden, md:inline-flex, !py-*) can override */
+@layer components {
 /* ─── Button Base ───────────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
@@ -199,6 +208,8 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--color-accent);
   color: var(--color-accent);
   box-shadow: 0 0 20px rgba(255,106,0,0.15);
+}
+
 }
 
 /* ─── Divider ───────────────────────────────────────────────────── */
@@ -310,7 +321,7 @@ canvas { display: block; }
 /* ─── Stat Counter ──────────────────────────────────────────────── */
 .stat-value {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 800;
   font-size: clamp(3rem, 7vw, 5.5rem);
   line-height: 1;
   background: linear-gradient(135deg, #FF6A00, #ffbb80);
