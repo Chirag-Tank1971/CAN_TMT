@@ -15,7 +15,7 @@ export const site = {
 export const BRANDS: { name: string; logo: string | null; noteKey?: 'shortLength' }[] = [
   { name: 'Kamdhenu TMT', logo: '/brands/kamdhenu.webp', noteKey: 'shortLength' },
   { name: 'Rathi TMT', logo: '/brands/rathi.webp' },
-  { name: 'Sharma TMT', logo: null }, // TODO: the file supplied showed "Shree TMT Xtra 550", not Sharma
+  { name: 'Sharma TMT', logo: '/brands/sharma.webp' }, // logo artwork reads "Shree TMT Xtra 550" (owner's choice)
   { name: 'Jindal TMT', logo: '/brands/jindal.webp' },
   { name: 'Premier TMT', logo: '/brands/premier.webp' }, // TODO: low-res crop from a flyer; replace with a clean logo file
   { name: 'Mangalam TMT', logo: '/brands/mangalam.webp' },

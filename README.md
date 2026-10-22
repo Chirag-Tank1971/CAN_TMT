@@ -37,7 +37,7 @@ Search the project for `TODO`, `[NUMBER]`, `[EMAIL]`, `[ADDRESS]`, `[CITIES/STAT
 | Phone, WhatsApp number (digits with country code, e.g. `9198…`), email, address, service area | `src/config/site.ts` |
 | Weight per metre for each diameter (shows "TODO" until filled) | `WEIGHT_PER_M` in `src/config/site.ts` |
 | Stat numbers. Set `confirmed: true` to hide the "Placeholder" tags. | `STATS` in `src/config/site.ts` |
-| Brand logos (only with each brand's permission): put files in `public/brands/`, then set `logo: '/brands/jindal.webp'` etc. in `BRANDS`. Crop to the logo and keep originals in the git-ignored `brand-sources/`. Without a logo the name shows as text. Sharma's logo is still missing. | `BRANDS` in `src/config/site.ts` |
+| Brand logos (only with each brand's permission): put files in `public/brands/`, then set `logo: '/brands/jindal.webp'` etc. in `BRANDS`. Crop to the logo and keep originals in the git-ignored `brand-sources/`. Without a logo the name shows as text. | `BRANDS` in `src/config/site.ts` |
 | ISI/BIS licence, IS 1786 details, welding/corrosion claims, delivery times | `[TODO: …]` strings in `src/translations/en.ts` and `hi.ts` |
 | Domain, city/state keywords, JSON-LD business details | `index.html`, `public/robots.txt`, `public/sitemap.xml` |
 
