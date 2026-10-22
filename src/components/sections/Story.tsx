@@ -102,18 +102,18 @@ export function Story() {
     // Ch1 → Ch2: bundle collapses to one bar, camera pushes along its length to the ribs
     tl.to(panels[0], { opacity: 0, y: -30, duration: 0.03, ease: 'power2.in' }, 0.1);
     tl.to(story, { fan: 0, idle: 0, rotX: -0.35, rotY: 0, rotZ: 0, duration: 0.07 }, 0.14);
-    tl.to(story, { cx: 9.2, cy: 1.3, cz: 3.6, tx: 4.4, ty: 0, tz: 0, shift: 0.55, duration: 0.09 }, 0.14);
+    tl.to(story, { cx: 9.2, cy: 1.3, cz: 3.6, tx: 4.4, ty: 0, tz: 0, shift: 0.55, px: 0.9, duration: 0.09 }, 0.14);
     panel(1, 0.19, 0.27);
     draw([...callout('ribs'), ...callout('longRib')], 0.21, 0.27);
 
     // Ch3: rotate to the lettering, polished → mill-scale
-    tl.to(story, { rotX: 0, cx: 0.9, cy: 0.6, cz: 5.6, tx: 1.3, ty: 0, duration: 0.07 }, 0.3);
+    tl.to(story, { rotX: 0, cx: 0.9, cy: 0.6, cz: 5.6, tx: 1.3, ty: 0, px: 0.8, duration: 0.07 }, 0.3);
     tl.to(U.uMix, { value: 1, duration: 0.09, ease: 'none' }, 0.33);
     panel(2, 0.35, 0.43);
     draw(callout('mark'), 0.37, 0.43);
 
     // Ch4: cut end to camera, slice opens into the cross-section
-    tl.to(story, { cx: 11.6, cy: 1.1, cz: 3.2, tx: 6.0, ty: 0.2, shift: 0.5, duration: 0.06 }, 0.46);
+    tl.to(story, { cx: 11.6, cy: 1.1, cz: 3.2, tx: 6.0, ty: 0.2, shift: 0.5, px: 0.3, duration: 0.06 }, 0.46);
     tl.to(story, { slice: 1, duration: 0.05 }, 0.52);
     tl.to(U.uSection, { value: 1, duration: 0.03 }, 0.52);
     tl.to(U.uHeat, { value: 1, duration: 0.04, ease: 'power1.out' }, 0.53);
@@ -123,7 +123,7 @@ export function Story() {
     // Ch5: piece returns, side view, bar flexes and springs back
     tl.to(story, { slice: 0, duration: 0.04 }, 0.62);
     tl.to([U.uSection, U.uHeat], { value: 0, duration: 0.03 }, 0.62);
-    tl.to(story, { cx: 0, cy: 1.6, cz: 27, tx: 0, ty: 1.2, tz: 0, rotX: 0, shift: 0.7, duration: 0.06 }, 0.62);
+    tl.to(story, { cx: 0, cy: 1.6, cz: 27, tx: 0, ty: 1.2, tz: 0, rotX: 0, shift: 0.7, px: 0, duration: 0.06 }, 0.62);
     tl.to(U.uBend, { value: 1, duration: 0.05, ease: 'power2.inOut' }, 0.67);
     tl.to(U.uBend, { value: 0, duration: 0.055, ease: 'elastic.out(1, 0.45)' }, 0.72);
     panel(4, 0.66, 0.75);

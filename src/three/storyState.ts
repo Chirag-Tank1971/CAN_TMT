@@ -14,6 +14,7 @@ export const story = {
   cage: 0,         // rebar cage assembly 0 → 1
   house: 0,        // house frame lines/slabs 0 → 1
   parallax: 1,
+  px: 2,           // portrait only: sideways recentre (desktop framing leaves room for text on the left)
 };
 
 /** Where the bar is cut in chapter 4 (local X). */

@@ -19,10 +19,13 @@ function Rig() {
     const cam = camera as THREE.PerspectiveCamera, s = story;
     sm.current.x += (pointer.x - sm.current.x) * 0.05;
     sm.current.y += (pointer.y - sm.current.y) * 0.05;
-    const portrait = size.width < size.height;
+    const aspect = size.width / size.height;
+    const portrait = aspect < 1;
+    // horizontal view shrinks with aspect: back off so the subject keeps about the width it has on desktop
+    const fit = portrait ? Math.min(2.6, Math.max(1, 1.05 / aspect)) : 1;
     T.set(s.tx, s.ty, s.tz);
-    P.set(s.cx, s.cy, s.cz).sub(T).multiplyScalar(portrait ? 1.7 : 1).add(T);
-    if (portrait) { const lift = P.distanceTo(T) * 0.13 * s.shift; T.y -= lift; P.y -= lift; }
+    P.set(s.cx, s.cy, s.cz).sub(T).multiplyScalar(fit).add(T);
+    if (portrait) { const lift = P.distanceTo(T) * 0.13 * s.shift; T.y -= lift; P.y -= lift; T.x += s.px; P.x += s.px; }
     P.x += sm.current.x * 0.8 * s.parallax;
     P.y += sm.current.y * 0.5 * s.parallax;
     cam.position.copy(P);
