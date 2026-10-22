@@ -199,7 +199,7 @@ h1, h2, h3, h4, h5, h6 {
 .story-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.6rem, 6.5vw, 5.75rem);
+  font-size: clamp(2rem, 6.5vw, 5.75rem);
   line-height: 0.92;
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -207,6 +207,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .story-title span:last-child { color: var(--color-accent); }
 .story-body { margin-top: 1.25rem; max-width: 30rem; color: #c9ccd1; font-size: clamp(1rem, 1.4vw, 1.125rem); }
+/* short / narrow phones: keep the panel compact so the 3D subject above stays visible */
+@media (max-width: 400px), (max-height: 700px) and (max-width: 640px) {
+  .story-title { font-size: clamp(1.75rem, 9vw, 2.4rem); }
+  .story-body { margin-top: .75rem; font-size: .9rem; line-height: 1.5; }
+  .story-cta { margin-top: 1.25rem; gap: .5rem; }
+  .story-cta > a { padding: .7rem 1rem; font-size: .8rem; letter-spacing: .06em; }
+  .scroll-cue { display: none; }
+}
 
 /* Callout pinned to a 3D point: dot at the point, line drawn by --draw (0→1), label at the line's end */
 .callout { position: absolute; left: 0; top: 0; will-change: transform; }

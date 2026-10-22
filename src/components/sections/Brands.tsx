@@ -15,7 +15,7 @@ export function Brands() {
     <section id="brands" ref={ref} className="section-pad relative z-10" aria-labelledby="brands-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <SectionHeader id="brands-heading" tag={b.tag} title={b.title} body={b.body} />
-        <ul className="grid grid-cols-2 lg:grid-cols-3 gap-px bg-steel-700/30 border border-steel-700/30" role="list">
+        <ul className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-3 gap-px bg-steel-700/30 border border-steel-700/30" role="list">
           {BRANDS.map((brand, i) => (
             <li key={brand.name} data-reveal style={{ '--d': `${i * 70}ms` } as React.CSSProperties}>
               <a

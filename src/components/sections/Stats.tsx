@@ -36,7 +36,7 @@ export function Stats() {
     <section id="stats" ref={ref} className="section-pad relative z-10 border-y border-steel-700/30 bg-charcoal-100/60" aria-labelledby="stats-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <SectionHeader id="stats-heading" tag={t.stats.tag} title={t.stats.title} />
-        <dl className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
+        <dl className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
           {STATS.items.map((s, i) => (
             <div key={i} data-reveal style={{ '--d': `${i * 90}ms` } as React.CSSProperties} className="border-l border-orange-400/50 pl-5 flex flex-col">
               <dt className="font-barlow font-600 uppercase tracking-widest text-sm text-steel-300">{t.stats.labels[i]}</dt>

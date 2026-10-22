@@ -17,12 +17,12 @@ const StoryCanvas = lazy(() => import('../../three/StoryCanvas'));
 const STORY0 = { ...story };
 const U0 = { uMix: 0, uBend: 0, uSection: 0, uHeat: 0 };
 
-function Callout({ id, label, dir = 'right' }: { id: string; label: string; dir?: 'right' | 'left' }) {
+function Callout({ id, label }: { id: string; label: string }) {
   return (
     <div
       ref={(el) => { const a = anchors.find((x) => x.id === id); if (a) a.el = el; }}
       data-callout={id}
-      className={`callout callout-${dir}`}
+      className="callout"
       style={{ '--draw': 0 } as React.CSSProperties}
     >
       <span className="callout-dot" />
@@ -151,7 +151,7 @@ export function Story() {
 
   const quote = (e: React.MouseEvent) => { e.preventDefault(); scrollToTarget('#contact'); };
   const CTAs = (
-    <div className="flex flex-wrap gap-3 mt-8">
+    <div className="story-cta flex flex-wrap gap-3 mt-8">
       <a href="#contact" onClick={quote} className="btn-primary">{t.nav.cta}</a>
       <a href={waLink(t.wa.general)} target="_blank" rel="noopener noreferrer" className="btn-secondary">{t.hero.ctaSecondary}</a>
     </div>
@@ -160,6 +160,7 @@ export function Story() {
     <H className="story-title">{text.split('\n').map((l, i) => <span key={i} className="block">{l}{' '}</span>)}</H>
   );
   const chapters = [s.ch1, s.ch2, s.ch3, s.ch4, s.ch5, s.ch6];
+  const TAGS: string[][] = [[], [s.ch2.ribs, s.ch2.longRib], [s.ch3.mark], [s.ch4.ring, s.ch4.core], [], []];
 
   if (reduced) {
     return (
@@ -199,11 +200,12 @@ export function Story() {
       {/* readability: darken behind the text column (left on desktop, bottom on mobile) */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent lg:bg-gradient-to-r lg:from-charcoal/90 lg:via-charcoal/30 lg:to-transparent" />
 
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <Callout id="ribs" label={s.ch2.ribs} dir="left" />
-        <Callout id="longRib" label={s.ch2.longRib} dir="left" />
+      {/* 3D-pinned callouts need room; on phones the same labels appear as tags in the panel instead */}
+      <div className="absolute inset-0 pointer-events-none hidden sm:block" aria-hidden="true">
+        <Callout id="ribs" label={s.ch2.ribs} />
+        <Callout id="longRib" label={s.ch2.longRib} />
         <Callout id="mark" label={s.ch3.mark} />
-        <Callout id="ring" label={s.ch4.ring} dir="left" />
+        <Callout id="ring" label={s.ch4.ring} />
         <Callout id="core" label={s.ch4.core} />
       </div>
 
@@ -216,6 +218,13 @@ export function Story() {
             <p className="section-tag mb-4">{c.tag}</p>
             <Title text={c.title} as={i === 0 ? 'h1' : 'h2'} />
             <p className="story-body">{c.body}</p>
+            {TAGS[i].length > 0 && (
+              <ul className="sm:hidden flex flex-wrap gap-2 mt-4" role="list">
+                {TAGS[i].map((tag) => (
+                  <li key={tag} className="font-barlow font-700 text-xs uppercase tracking-wider text-white bg-charcoal/70 border-l-2 border-orange-400 px-2 py-1">{tag}</li>
+                ))}
+              </ul>
+            )}
             {i === 3 && (
               <div className="mt-6 max-w-xs" aria-hidden="true">
                 <div className="h-1.5 rounded-full bg-gradient-to-r from-[#fff1c2] via-[#ff6a00] to-[#23262b]" />
@@ -229,7 +238,7 @@ export function Story() {
           </div>
         ))}
 
-        <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity ${chapter === 0 ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true">
+        <div className={`scroll-cue absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity ${chapter === 0 ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true">
           <span className="text-[11px] font-barlow tracking-[0.3em] uppercase text-steel-400">{s.scroll}</span>
           <span className="block w-px h-10 bg-gradient-to-b from-orange-400 to-transparent animate-scroll-cue" />
         </div>

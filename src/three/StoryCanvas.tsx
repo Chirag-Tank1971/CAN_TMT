@@ -22,7 +22,7 @@ function Rig() {
     const portrait = size.width < size.height;
     T.set(s.tx, s.ty, s.tz);
     P.set(s.cx, s.cy, s.cz).sub(T).multiplyScalar(portrait ? 1.7 : 1).add(T);
-    if (portrait) { const lift = P.distanceTo(T) * 0.1 * s.shift; T.y -= lift; P.y -= lift; }
+    if (portrait) { const lift = P.distanceTo(T) * 0.13 * s.shift; T.y -= lift; P.y -= lift; }
     P.x += sm.current.x * 0.8 * s.parallax;
     P.y += sm.current.y * 0.5 * s.parallax;
     cam.position.copy(P);
@@ -67,7 +67,9 @@ function StoryBar({ tier, onReady }: { tier: Tier; onReady: () => void }) {
     for (const an of anchors) {
       if (!an.el) continue;
       V.set(...an.p).applyMatrix4(g.matrixWorld).project(camera);
-      an.el.style.transform = `translate3d(${((V.x + 1) / 2) * size.width}px, ${((1 - V.y) / 2) * size.height}px, 0)`;
+      const x = ((V.x + 1) / 2) * size.width;
+      an.el.style.transform = `translate3d(${x}px, ${((1 - V.y) / 2) * size.height}px, 0)`;
+      an.el.classList.toggle('callout-left', x > size.width * 0.55); // label always points into the screen
     }
   });
 
