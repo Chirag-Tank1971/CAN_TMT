@@ -46,11 +46,15 @@ export function Story() {
   const trigger = useRef<ScrollTrigger | null>(null);
   const onReady = useCallback(() => setReady(true), []);
 
-  // Load the 3D chunk after first paint so the headline + fallback image are the LCP
+  // Start WebGL on the first interaction: the headline + fallback image paint immediately and the heavy
+  // 3D init never competes with page load on slow phones. Visitors who never interact keep the still image.
   useEffect(() => {
     if (!webgl) return;
-    const id = requestAnimationFrame(() => setTimeout(() => setMountCanvas(true), 50));
-    return () => cancelAnimationFrame(id);
+    const events = ['pointerdown', 'pointermove', 'touchstart', 'wheel', 'keydown', 'scroll'] as const;
+    const start = () => { setMountCanvas(true); stop(); };
+    const stop = () => events.forEach((e) => removeEventListener(e, start));
+    events.forEach((e) => addEventListener(e, start, { passive: true }));
+    return stop;
   }, [webgl]);
 
   // Desktop pointer parallax
@@ -153,7 +157,7 @@ export function Story() {
     </div>
   );
   const Title = ({ text, as: H = 'h2' }: { text: string; as?: 'h1' | 'h2' }) => (
-    <H className="story-title">{text.split('\n').map((l, i) => <span key={i} className="block">{l}</span>)}</H>
+    <H className="story-title">{text.split('\n').map((l, i) => <span key={i} className="block">{l}{' '}</span>)}</H>
   );
   const chapters = [s.ch1, s.ch2, s.ch3, s.ch4, s.ch5, s.ch6];
 
@@ -206,7 +210,7 @@ export function Story() {
       <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6">
         {chapters.map((c, i) => (
           // outer div positions (CSS transform), inner div is animated by GSAP (its own transform)
-          <div key={i} className={`absolute inset-x-4 sm:inset-x-6 bottom-24 lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:max-w-xl ${chapter === i ? '' : 'pointer-events-none'}`}>
+          <div key={i} className={`absolute inset-x-4 sm:inset-x-6 top-[42svh] lg:top-[26vh] lg:max-w-xl ${chapter === i ? '' : 'pointer-events-none'}`}>
           <div data-panel style={{ opacity: i === 0 ? 1 : 0 }}>
             <p className="section-tag mb-4">{c.tag}</p>
             <Title text={c.title} as={i === 0 ? 'h1' : 'h2'} />
@@ -232,7 +236,7 @@ export function Story() {
 
       <nav aria-label="Story chapters" className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-10">
         {s.chapters.map((name, i) => (
-          <button key={i} onClick={() => goTo(i)} aria-label={name} aria-current={chapter === i ? 'step' : undefined}
+          <button key={i} onClick={() => goTo(i)} aria-current={chapter === i ? 'step' : undefined}
             className="group relative flex items-center justify-end p-1.5">
             <span className="absolute right-7 whitespace-nowrap font-barlow text-xs tracking-widest uppercase text-steel-300 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity">{name}</span>
             <span className={`block rounded-full transition-all duration-300 ${chapter === i ? 'w-2.5 h-2.5 bg-orange-400 shadow-[0_0_12px_#FF6A00]' : 'w-1.5 h-1.5 bg-steel-500'}`} />

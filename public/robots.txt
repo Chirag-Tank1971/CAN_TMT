@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://cantmt.in/sitemap.xml
+# TODO: replace YOUR-DOMAIN.in with the live domain
+Sitemap: https://www.YOUR-DOMAIN.in/sitemap.xml

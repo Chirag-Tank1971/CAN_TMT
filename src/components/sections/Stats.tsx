@@ -38,12 +38,12 @@ export function Stats() {
         <SectionHeader id="stats-heading" tag={t.stats.tag} title={t.stats.title} />
         <dl className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
           {STATS.items.map((s, i) => (
-            <div key={i} data-reveal style={{ '--d': `${i * 90}ms` } as React.CSSProperties} className="border-l border-orange-400/50 pl-5">
-              <dd className="stat-value">
+            <div key={i} data-reveal style={{ '--d': `${i * 90}ms` } as React.CSSProperties} className="border-l border-orange-400/50 pl-5 flex flex-col">
+              <dt className="font-barlow font-600 uppercase tracking-widest text-sm text-steel-300">{t.stats.labels[i]}</dt>
+              <dd className="stat-value -order-1 mb-2">
                 <span ref={(n) => { nums.current[i] = n; }}>0</span>{s.suffix}
               </dd>
-              <dt className="mt-2 font-barlow font-600 uppercase tracking-widest text-sm text-steel-300">{t.stats.labels[i]}</dt>
-              {!STATS.confirmed && <span className="inline-block mt-2 text-[10px] uppercase tracking-widest text-orange-300 border border-orange-400/40 px-1.5 py-0.5">TODO · {t.stats.todo}</span>}
+              {!STATS.confirmed && <dd className="mt-2"><span className="inline-block text-[10px] uppercase tracking-widest text-orange-300 border border-orange-400/40 px-1.5 py-0.5">TODO · {t.stats.todo}</span></dd>}
             </div>
           ))}
         </dl>

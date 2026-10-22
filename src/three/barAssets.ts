@@ -9,6 +9,7 @@ async function build(tier: Tier) {
   const t = C.tiers[tier];
   const t0 = performance.now();
   const maps = await buildBarMaps(t.mapW);
+  await new Promise((r) => setTimeout(r, 0));
   const { body, caps } = buildBarGeometry(maps, t.radial, t.segments);
   if (import.meta.env.DEV) console.info(`[bar] ${tier} tier built in ${Math.round(performance.now() - t0)}ms (${maps.w}×${maps.h} map)`);
   const mat = createBarMaterials(maps.normalMap);

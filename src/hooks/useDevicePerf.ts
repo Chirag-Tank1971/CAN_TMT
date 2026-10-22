@@ -14,6 +14,7 @@ export const prefersReducedMotion = () => matchMedia('(prefers-reduced-motion: r
 
 /** WebGL available at all? Otherwise the static image fallback is shown. */
 export function hasWebGL() {
+  if (new URLSearchParams(location.search).has('no3d')) return false; // debug: static fallback only
   try {
     return !!document.createElement('canvas').getContext('webgl2');
   } catch {

@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { LangProvider } from './lib/LangContext';
+import { lazy, Suspense, useEffect } from 'react';
+import { LangProvider, useLang } from './lib/LangContext';
 import { initSmoothScroll } from './lib/scroll';
 import { Navbar } from './components/layout/Navbar';
 import { FloatingWhatsApp } from './components/layout/FloatingWhatsApp';
@@ -7,12 +7,18 @@ import { Footer } from './components/layout/Footer';
 import { Story } from './components/sections/Story';
 import { WhyCAN } from './components/sections/WhyCAN';
 import { Process } from './components/sections/Process';
-import { Products } from './components/sections/Products';
+// below the fold: keeps framer-motion out of the initial bundle
+const Products = lazy(() => import('./components/sections/Products').then((m) => ({ default: m.Products })));
 import { Applications } from './components/sections/Applications';
 import { Stats } from './components/sections/Stats';
 import { HowToOrder } from './components/sections/HowToOrder';
 import { DealerContact } from './components/sections/DealerContact';
 import { FAQ } from './components/sections/FAQ';
+
+function SkipLink() {
+  const { t } = useLang();
+  return <a href="#main-content" className="skip-link">{t.nav.skip}</a>;
+}
 
 export default function App() {
   useEffect(() => initSmoothScroll(), []);
@@ -20,15 +26,13 @@ export default function App() {
   return (
     <LangProvider>
       <div id="top" />
-      <a href="#main-content" className="skip-link">
-        Skip to content
-      </a>
+      <SkipLink />
       <Navbar />
       <main id="main-content">
         <Story />
         <WhyCAN />
         <Process />
-        <Products />
+        <Suspense fallback={<div id="products" className="min-h-[900px]" />}><Products /></Suspense>
         <Applications />
         <Stats />
         <HowToOrder />

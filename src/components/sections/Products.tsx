@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence, LazyMotion, domAnimation } from 'framer-motion';
 import { useLang } from '../../lib/LangContext';
 import { useReveal } from '../../lib/useReveal';
 import { GRADES, DIAMETERS, WEIGHT_PER_M, waLink } from '../../config/site';
@@ -24,11 +24,11 @@ function BarPreview({ dia }: { dia: Dia }) {
           <rect width="5" height="200" rx="2" fill="rgba(14,14,16,.35)" />
         </pattern>
       </defs>
-      <motion.g animate={{ y: 80 - h / 2 }} transition={{ duration: 0.6, ease: EASE }} initial={false}>
-        <motion.rect x="10" width="380" rx="4" fill="url(#steel)" animate={{ height: h }} transition={{ duration: 0.6, ease: EASE }} initial={false} />
-        <motion.rect x="10" width="380" rx="4" fill="url(#prib)" animate={{ height: h }} transition={{ duration: 0.6, ease: EASE }} initial={false} />
-      </motion.g>
-      <motion.circle cx="460" cy="80" fill="url(#steel)" stroke="#FF6A00" strokeWidth="1.5" animate={{ r: h / 2 }} transition={{ duration: 0.6, ease: EASE }} initial={false} />
+      <m.g animate={{ y: 80 - h / 2 }} transition={{ duration: 0.6, ease: EASE }} initial={false}>
+        <m.rect x="10" width="380" rx="4" fill="url(#steel)" animate={{ height: h }} transition={{ duration: 0.6, ease: EASE }} initial={false} />
+        <m.rect x="10" width="380" rx="4" fill="url(#prib)" animate={{ height: h }} transition={{ duration: 0.6, ease: EASE }} initial={false} />
+      </m.g>
+      <m.circle cx="460" cy="80" fill="url(#steel)" stroke="#FF6A00" strokeWidth="1.5" animate={{ r: h / 2 }} transition={{ duration: 0.6, ease: EASE }} initial={false} />
       <text x="460" y="152" textAnchor="middle" className="fill-steel-300 font-barlow" fontSize="14" letterSpacing="2">ø {dia} MM</text>
     </svg>
   );
@@ -45,9 +45,10 @@ export function Products() {
   const msg = p.waMsg.replace('{grade}', grade.label).replace('{dia}', String(dia));
 
   const chip = (active: boolean) =>
-    `font-barlow font-700 tracking-wider transition-colors border rounded-sm ${active ? 'border-orange-400 bg-orange-400 text-white' : 'border-steel-600/60 text-steel-200 hover:border-orange-400 hover:text-orange-400'}`;
+    `font-barlow font-700 tracking-wider transition-colors border rounded-sm ${active ? 'border-orange-400 bg-orange-400 text-charcoal' : 'border-steel-600/60 text-steel-200 hover:border-orange-400 hover:text-orange-400'}`;
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <section id="products" ref={ref} className="section-pad relative z-10" aria-labelledby="products-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <SectionHeader id="products-heading" tag={p.tag} title={p.title} />
@@ -79,13 +80,13 @@ export function Products() {
           <div className="metal-card draw-top rounded-sm p-6 sm:p-8" data-reveal style={{ '--d': '120ms' } as React.CSSProperties}>
             <BarPreview dia={dia} />
             <AnimatePresence mode="wait" initial={false}>
-              <motion.dl key={grade.id + dia} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}
+              <m.dl key={grade.id + dia} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}
                 className="grid grid-cols-2 gap-x-6 gap-y-5 mt-6" aria-live="polite">
                 <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.grade}</dt><dd className="font-barlow font-800 text-3xl text-white">{grade.label}</dd></div>
                 <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.diameter}</dt><dd className="font-barlow font-800 text-3xl text-white">{dia} mm</dd></div>
                 <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.weight}</dt><dd className={weight ? 'font-barlow font-800 text-3xl text-white' : 'text-sm text-orange-300 mt-2'}>{weight ? `${weight} kg/m` : p.weightTodo}</dd></div>
                 <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.bestFor}</dt><dd className="text-sm text-steel-200 mt-1">{p.uses[grade.id]}</dd></div>
-              </motion.dl>
+              </m.dl>
             </AnimatePresence>
             <a href={waLink(msg)} target="_blank" rel="noopener noreferrer" className="btn-primary w-full justify-center mt-8">{p.cta}</a>
             <p className="mt-3 text-xs text-steel-500 text-center">{p.advice}</p>
@@ -93,5 +94,6 @@ export function Products() {
         </div>
       </div>
     </section>
+    </LazyMotion>
   );
 }

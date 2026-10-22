@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: replace YOUR-DOMAIN.in with the live domain -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cantmt.in/</loc>
-    <lastmod>2024-01-01</lastmod>
+    <loc>https://www.YOUR-DOMAIN.in/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

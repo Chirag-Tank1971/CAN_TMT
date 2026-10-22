@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useLang } from '../../lib/LangContext';
 import { scrollToTarget } from '../../lib/scroll';
 import { Logo } from './Logo';
@@ -28,10 +27,11 @@ export function Navbar() {
     <button
       onClick={toggleLang}
       className="flex items-center border border-steel-600/50 rounded-sm font-barlow font-700 text-xs tracking-widest overflow-hidden"
-      aria-label={lang === 'en' ? 'हिंदी में देखें' : 'View in English'}
+      aria-pressed={lang === 'hi'}
     >
-      <span className={`px-2 py-1 ${lang === 'en' ? 'bg-orange-400 text-white' : 'text-steel-400'}`}>EN</span>
-      <span className={`px-2 py-1 ${lang === 'hi' ? 'bg-orange-400 text-white' : 'text-steel-400'}`}>हिं</span>
+      <span className="sr-only">{lang === 'en' ? 'हिंदी में देखें / ' : 'View in English / '}</span>
+      <span className={`px-2 py-1 ${lang === 'en' ? 'bg-orange-400 text-charcoal' : 'text-steel-400'}`}>EN</span>
+      <span className={`px-2 py-1 ${lang === 'hi' ? 'bg-orange-400 text-charcoal' : 'text-steel-400'}`}>हिं</span>
     </button>
   );
 
@@ -76,31 +76,22 @@ export function Navbar() {
         </div>
       </nav>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.ul
-            id="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden overflow-hidden border-t border-steel-700/40 py-2"
-            role="list"
-          >
-            {HREFS.map((href, i) => (
-              <li key={href}>
-                <a href={href} onClick={go(href)}
-                  className="block px-6 py-3 font-barlow font-700 tracking-widest uppercase text-steel-200 hover:text-orange-400">
-                  {t.nav.links[i]}
-                </a>
-              </li>
-            ))}
-            <li className="px-6 py-3">
-              <a href="#contact" onClick={go('#contact')} className="btn-primary w-full justify-center">{t.nav.cta}</a>
+      {/* CSS grid-rows collapse; `inert` keeps hidden links out of the tab order */}
+      <div id="mobile-menu" className={`md:hidden grid transition-[grid-template-rows] duration-300 ease-out ${menuOpen ? 'grid-rows-[1fr] border-t border-steel-700/40' : 'grid-rows-[0fr]'}`} inert={!menuOpen}>
+        <ul className="overflow-hidden" role="list">
+          {HREFS.map((href, i) => (
+            <li key={href}>
+              <a href={href} onClick={go(href)}
+                className="block px-6 py-3 font-barlow font-700 tracking-widest uppercase text-steel-200 hover:text-orange-400">
+                {t.nav.links[i]}
+              </a>
             </li>
-          </motion.ul>
-        )}
-      </AnimatePresence>
+          ))}
+          <li className="px-6 py-3">
+            <a href="#contact" onClick={go('#contact')} className="btn-primary w-full justify-center">{t.nav.cta}</a>
+          </li>
+        </ul>
+      </div>
     </header>
   );
 }

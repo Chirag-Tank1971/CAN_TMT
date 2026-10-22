@@ -14,6 +14,10 @@ export interface BarMaps {
 
 const CIRC = 2 * Math.PI * C.radius;
 
+// ponytail: yields between phases split one long main-thread task into several (smoother scroll on phones).
+// Upgrade to an OffscreenCanvas worker if generation still shows up as jank on low-end devices.
+const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0));
+
 /** Separable box blur, run twice (≈ gaussian). Wraps around the circumference, clamps along the length. */
 function blur(src: Float32Array, w: number, h: number, r: number) {
   r = Math.max(1, Math.round(r));
@@ -128,13 +132,17 @@ export async function buildBarMaps(mapW: number): Promise<BarMaps> {
     }
   }
 
+  await yieldToMain();
   const ribH = blur(canvasToFloat(ribs, w, h), w, h, C.ribWidth * 0.22 * k);
+  await yieldToMain();
   const txtH = blur(canvasToFloat(text, w, h), w, h, 0.01 * k);
   const heights = new Float32Array(w * h);
   for (let i = 0; i < heights.length; i++) heights[i] = ribH[i] * C.ribHeight + txtH[i] * C.embossHeight;
 
   // ── Normal map (rgb) + cavity (a): cavity = how far a pixel sits below its blurred surroundings
+  await yieldToMain();
   const wide = blur(heights, w, h, 0.05 * k);
+  await yieldToMain();
   const data = new Uint8Array(w * h * 4);
   const step = 2 / k;
   for (let y = 0; y < h; y++) {
