@@ -7,7 +7,7 @@ import { scrollToTarget } from '../../lib/scroll';
 import { waLink } from '../../config/site';
 import { getTier, hasWebGL, prefersReducedMotion } from '../../hooks/useDevicePerf';
 import { story, anchors, pointer, CHAPTERS } from '../../three/storyState';
-import { barUniforms } from '../../three/barMaterial';
+import { barUniforms } from '../../three/uniforms';
 
 gsap.registerPlugin(ScrollTrigger);
 

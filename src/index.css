@@ -253,6 +253,47 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes scrollCue { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 .animate-scroll-cue { animation: scrollCue 2s cubic-bezier(.65,0,.35,1) infinite; }
 
+/* ─── Scroll reveal (see useReveal) ─────────────────────────────── */
+[data-reveal] {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
+  transition-delay: var(--d, 0ms);
+}
+[data-reveal].in { opacity: 1; transform: none; }
+/* line-draw accent along the top of a card */
+.draw-top { position: relative; }
+.draw-top::before {
+  content: ''; position: absolute; left: 0; top: 0; height: 2px; width: 100%;
+  background: linear-gradient(90deg, var(--color-accent), transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform 1.1s cubic-bezier(.65,0,.35,1) calc(var(--d, 0ms) + 200ms);
+}
+.draw-top.in::before { transform: scaleX(1); }
+.icon-draw path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(.65,0,.35,1) calc(var(--d, 0ms) + 250ms); }
+.in .icon-draw path, .icon-draw.in path { stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .icon-draw path { stroke-dashoffset: 0; }
+  [data-reveal] { opacity: 1; transform: none; }
+  .draw-top::before { transform: none; }
+}
+
+/* ─── Process: water spray + embers ─────────────────────────────── */
+@keyframes spray { 0% { stroke-dashoffset: 60; opacity: 0; } 30% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+.spray { stroke-dasharray: 20 40; animation: spray .7s linear infinite; }
+@keyframes ember { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translate(14px, -70px); opacity: 0; } }
+.ember { animation: ember 2s ease-out infinite; transform-box: fill-box; }
+@media (prefers-reduced-motion: reduce) { .spray, .ember { animation: none; } }
+
+/* ─── Application cards: text slides up on hover/focus ──────────── */
+.app-reveal { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .5s cubic-bezier(.16,1,.3,1), opacity .4s, margin .5s; }
+.app-reveal { overflow: hidden; }
+.app-card:hover .app-reveal, .app-card:focus-within .app-reveal, .app-card:focus .app-reveal { grid-template-rows: 1fr; opacity: 1; margin-top: .5rem; }
+.app-card::after { content: ''; position: absolute; inset: auto 0 0 0; height: 2px; background: var(--color-accent); transform: scaleX(0); transform-origin: left; transition: transform .6s cubic-bezier(.65,0,.35,1); }
+.app-card:hover::after, .app-card:focus::after { transform: scaleX(1); }
+@media (hover: none) { .app-reveal { grid-template-rows: 1fr; opacity: 1; margin-top: .5rem; } }
+
+.draw-line { background: linear-gradient(90deg, var(--color-accent), rgba(142,153,164,.35)); transform: scaleX(0); transform-origin: left; opacity: 1; }
+.draw-line.in { transform: scaleX(1); transition: transform 1.6s cubic-bezier(.65,0,.35,1); }
+
 /* ─── Divider ───────────────────────────────────────────────────── */
 .steel-divider {
   height: 1px;

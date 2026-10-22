@@ -1,92 +1,37 @@
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
 import { useLang } from '../../lib/LangContext';
+import { useReveal } from '../../lib/useReveal';
+import { SectionHeader } from '../ui/SectionHeader';
+import { Icon, type IconName } from '../ui/Icons';
 
-const APPLICATION_ICONS: Record<string, string> = {
-  home: '🏠',
-  apartment: '🏢',
-  bridge: '🌉',
-  commercial: '🏪',
-  industrial: '🏭',
-};
+const ICONS: IconName[] = ['home', 'apartment', 'bridge', 'commercial', 'industrial'];
 
-const APPLICATION_COLORS: Record<string, string> = {
-  home: 'from-orange-400/20',
-  apartment: 'from-steel-500/20',
-  bridge: 'from-blue-900/20',
-  commercial: 'from-purple-900/20',
-  industrial: 'from-amber-900/20',
-};
-
+/** Hover (desktop) / focus / tap reveals each card's text; touch screens show it by default. */
 export function Applications() {
   const { t } = useLang();
-  const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, { once: true, margin: '-80px' });
+  const a = t.applications;
+  const ref = useRef<HTMLElement>(null);
+  useReveal(ref);
 
   return (
-    <section
-      id="applications"
-      ref={sectionRef}
-      className="section-pad relative z-10"
-      aria-labelledby="applications-heading"
-    >
+    <section id="applications" ref={ref} className="section-pad relative z-10" aria-labelledby="applications-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-14">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            className="section-tag justify-center mb-4"
-          >
-            {t.applications.sectionTag}
-          </motion.div>
-          <motion.h2
-            id="applications-heading"
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="section-heading text-white"
-          >
-            {t.applications.heading}
-          </motion.h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {t.applications.items.map((app, i) => (
-            <motion.article
-              key={i}
-              initial={{ opacity: 0, y: 32, scale: 0.97 }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className={`metal-card rounded-sm overflow-hidden group cursor-default ${i === 2 ? 'lg:col-span-1' : ''}`}
-            >
-              {/* Image area — colour gradient with icon */}
-              <div
-                className={`relative h-40 bg-gradient-to-br ${APPLICATION_COLORS[app.image] || 'from-steel-800/20'} to-transparent flex items-center justify-center overflow-hidden`}
-                aria-hidden="true"
-              >
-                <span className="text-6xl transform transition-transform duration-500 group-hover:scale-110">
-                  {APPLICATION_ICONS[app.image]}
-                </span>
-                {/* Subtle horizontal line */}
-                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-400/20 to-transparent" />
+        <SectionHeader id="applications-heading" tag={a.tag} title={a.title} />
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" role="list">
+          {a.items.map((item, i) => (
+            <li key={item.title} data-reveal style={{ '--d': `${i * 80}ms` } as React.CSSProperties}>
+              <div tabIndex={0} className="app-card group metal-card rounded-sm h-72 lg:h-96 p-6 flex flex-col justify-between overflow-hidden cursor-default focus-visible:outline-orange-400">
+                <span className="font-barlow text-sm tracking-widest text-steel-500">0{i + 1}</span>
+                <Icon name={ICONS[i]} className="w-20 h-20 text-steel-300 group-hover:text-orange-400 group-focus:text-orange-400 transition-colors duration-500 mx-auto" />
+                <div>
+                  <h3 className="font-barlow font-700 text-2xl uppercase text-white">{item.title}</h3>
+                  <p className="app-reveal text-sm text-steel-300 leading-relaxed"><span className="min-h-0">{item.body}</span></p>
+                </div>
               </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="font-barlow font-800 text-lg uppercase text-white mb-2 tracking-wide">
-                  {app.title}
-                </h3>
-                <p className="font-inter text-sm text-steel-400 leading-relaxed">{app.description}</p>
-
-                {/* Reveal on hover */}
-                <div className="mt-4 h-0.5 bg-orange-400/0 group-hover:bg-orange-400/60 transition-all duration-500 rounded-full" />
-              </div>
-            </motion.article>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
-
-      <div className="steel-divider mt-20" />
     </section>
   );
 }

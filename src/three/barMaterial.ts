@@ -1,14 +1,8 @@
 import * as THREE from 'three';
 import { barConfig as C } from './barConfig';
+import { barUniforms } from './uniforms';
 
-/** Shared by every bar material; the scroll timeline writes these directly (no React re-render). */
-export const barUniforms = {
-  uMix: { value: 0 },     // 0 = polished new steel, 1 = mill-scale + rust
-  uBend: { value: 0 },    // 0 = straight, 1 = full arc
-  uSection: { value: 0 }, // caps: 0 = machined cut end, 1 = etched cross-section
-  uHeat: { value: 0 },    // caps: glow of the still-hot core
-  uLength: { value: C.length },
-};
+export { barUniforms };
 
 const NOISE = /* glsl */ `
 uniform float uMix; uniform float uBend; uniform float uSection; uniform float uHeat; uniform float uLength;

@@ -6,7 +6,7 @@ import { FloatingWhatsApp } from './components/layout/FloatingWhatsApp';
 import { Footer } from './components/layout/Footer';
 import { Story } from './components/sections/Story';
 import { WhyCAN } from './components/sections/WhyCAN';
-import { CrossSection } from './components/sections/CrossSection';
+import { Process } from './components/sections/Process';
 import { Products } from './components/sections/Products';
 import { Applications } from './components/sections/Applications';
 import { Stats } from './components/sections/Stats';
@@ -27,7 +27,7 @@ export default function App() {
       <main id="main-content">
         <Story />
         <WhyCAN />
-        <CrossSection />
+        <Process />
         <Products />
         <Applications />
         <Stats />

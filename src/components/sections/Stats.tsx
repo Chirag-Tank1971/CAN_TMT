@@ -1,111 +1,53 @@
-import { useRef, useEffect, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import { useLang } from '../../lib/LangContext';
+import { useReveal } from '../../lib/useReveal';
+import { STATS } from '../../config/site';
+import { SectionHeader } from '../ui/SectionHeader';
 
-function CounterItem({
-  item,
-  inView,
-  delay,
-}: {
-  item: { value: string; suffix: string; label: string };
-  inView: boolean;
-  delay: number;
-}) {
-  const [displayed, setDisplayed] = useState('0');
-  const isNumeric = !isNaN(Number(item.value));
+const fmt = new Intl.NumberFormat('en-IN');
 
-  useEffect(() => {
-    if (!inView || !isNumeric) {
-      setDisplayed(item.value);
-      return;
-    }
-    const target = Number(item.value);
-    const duration = 1800;
-    const steps = 60;
-    const increment = target / steps;
-    let current = 0;
-    let step = 0;
-
-    const delayTimeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        step++;
-        current = Math.min(Math.round(increment * step), target);
-        setDisplayed(String(current));
-        if (step >= steps) clearInterval(interval);
-      }, duration / steps);
-      return () => clearInterval(interval);
-    }, delay * 1000);
-
-    return () => clearTimeout(delayTimeout);
-  }, [inView, item.value, isNumeric, delay]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="text-center"
-      role="figure"
-      aria-label={`${item.value}${item.suffix} ${item.label}`}
-    >
-      <div className="stat-value" aria-hidden="true">
-        {displayed}
-        <span>{item.suffix}</span>
-      </div>
-      <p className="font-barlow font-700 text-sm uppercase tracking-widest text-steel-500 mt-2">
-        {item.label}
-      </p>
-    </motion.div>
-  );
-}
-
+/** Counts up once when the row scrolls into view (instantly under reduced motion). */
 export function Stats() {
   const { t } = useLang();
-  const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, { once: true, margin: '-80px' });
+  const ref = useRef<HTMLElement>(null);
+  const nums = useRef<(HTMLSpanElement | null)[]>([]);
+  useReveal(ref);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      const t0 = performance.now(), dur = reduced ? 0 : 1800;
+      const tick = (now: number) => {
+        const k = dur ? Math.min(1, (now - t0) / dur) : 1, ease = 1 - Math.pow(1 - k, 4);
+        STATS.items.forEach((s, i) => { const n = nums.current[i]; if (n) n.textContent = fmt.format(Math.round(s.value * ease)); });
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <section
-      id="stats"
-      ref={sectionRef}
-      className="py-20 relative z-10 overflow-hidden"
-      aria-labelledby="stats-heading"
-    >
-      {/* Glow bg */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(255,106,0,0.05) 0%, transparent 70%)' }}
-        aria-hidden="true"
-      />
-
+    <section id="stats" ref={ref} className="section-pad relative z-10 border-y border-steel-700/30 bg-charcoal-100/60" aria-labelledby="stats-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            className="section-tag justify-center mb-4"
-          >
-            {t.stats.sectionTag}
-          </motion.div>
-          <motion.h2
-            id="stats-heading"
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="section-heading text-white"
-          >
-            {t.stats.heading}
-          </motion.h2>
-        </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4">
-          {t.stats.items.map((item, i) => (
-            <CounterItem key={i} item={item} inView={inView} delay={0.2 + i * 0.1} />
+        <SectionHeader id="stats-heading" tag={t.stats.tag} title={t.stats.title} />
+        <dl className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
+          {STATS.items.map((s, i) => (
+            <div key={i} data-reveal style={{ '--d': `${i * 90}ms` } as React.CSSProperties} className="border-l border-orange-400/50 pl-5">
+              <dd className="stat-value">
+                <span ref={(n) => { nums.current[i] = n; }}>0</span>{s.suffix}
+              </dd>
+              <dt className="mt-2 font-barlow font-600 uppercase tracking-widest text-sm text-steel-300">{t.stats.labels[i]}</dt>
+              {!STATS.confirmed && <span className="inline-block mt-2 text-[10px] uppercase tracking-widest text-orange-300 border border-orange-400/40 px-1.5 py-0.5">TODO · {t.stats.todo}</span>}
+            </div>
           ))}
-        </div>
+        </dl>
       </div>
-
-      <div className="steel-divider mt-16" />
     </section>
   );
 }
