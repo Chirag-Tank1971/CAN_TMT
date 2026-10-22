@@ -2,7 +2,7 @@ import { useLang } from '../../lib/LangContext';
 import { site, waLink } from '../../config/site';
 import { Logo } from './Logo';
 
-const HREFS = ['#why', '#products', '#applications', '#contact', '#faq'];
+const HREFS = ['#why', '#brands', '#products', '#applications', '#contact', '#faq'];
 
 export function Footer() {
   const { t } = useLang();

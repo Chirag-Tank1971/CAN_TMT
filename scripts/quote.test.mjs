@@ -17,7 +17,7 @@ test('normalizePhone rejects landlines / short / junk', () => {
 });
 
 test('buildQuoteMessage skips empty fields and keeps order', () => {
-  const labels = { name: 'Name', phone: 'Phone', city: 'City', quantity: 'Qty', grade: 'Grade' };
-  const msg = buildQuoteMessage('Hi', labels, { name: ' Ravi ', phone: '9876543210', city: '', quantity: '5', grade: 'Fe 500D' });
-  assert.equal(msg, 'Hi\n\nName: Ravi\nPhone: 9876543210\nQty: 5\nGrade: Fe 500D');
+  const labels = { name: 'Name', phone: 'Phone', city: 'City', quantity: 'Qty', brand: 'Brand', grade: 'Grade' };
+  const msg = buildQuoteMessage('Hi', labels, { name: ' Ravi ', phone: '9876543210', city: '', quantity: '5', brand: 'Jindal TMT', grade: 'Fe 500D' });
+  assert.equal(msg, 'Hi\n\nName: Ravi\nPhone: 9876543210\nQty: 5\nBrand: Jindal TMT\nGrade: Fe 500D');
 });

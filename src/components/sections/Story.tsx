@@ -164,7 +164,7 @@ export function Story() {
   if (reduced) {
     return (
       <section id="story" aria-label={s.chapters[0]} className="relative pt-28 pb-16">
-        <img src="/fallback-bar.webp" alt="CAN TMT steel bars with angled ribs and the embossed CAN TMT mark" width={1280} height={720} className="w-full max-w-5xl mx-auto opacity-90" />
+        <img src="/fallback-bar.webp" alt="TMT steel bars with angled ribs and an embossed maker's mark" width={1280} height={720} className="w-full max-w-5xl mx-auto opacity-90" />
         <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-16 mt-10">
           {chapters.map((c, i) => (
             <div key={i}>
@@ -183,7 +183,7 @@ export function Story() {
     <section ref={root} id="story" aria-label={s.chapters[0]} className="relative h-[100svh] overflow-hidden">
       <img
         src="/fallback-bar.webp"
-        alt="CAN TMT steel bars with angled ribs and the embossed CAN TMT mark"
+        alt="TMT steel bars with angled ribs and an embossed maker's mark"
         width={1280}
         height={720}
         fetchPriority="high"
@@ -210,7 +210,8 @@ export function Story() {
       <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6">
         {chapters.map((c, i) => (
           // outer div positions (CSS transform), inner div is animated by GSAP (its own transform)
-          <div key={i} className={`absolute inset-x-4 sm:inset-x-6 top-[42svh] lg:top-[26vh] lg:max-w-xl ${chapter === i ? '' : 'pointer-events-none'}`}>
+          // flex (not top offsets) keeps tall panels inside the pinned viewport: bottom-aligned on phones, centred on desktop
+          <div key={i} className={`absolute inset-x-4 sm:inset-x-6 inset-y-0 flex flex-col justify-end pt-24 pb-20 lg:justify-center lg:pb-0 lg:max-w-xl ${chapter === i ? '' : 'pointer-events-none'}`}>
           <div data-panel style={{ opacity: i === 0 ? 1 : 0 }}>
             <p className="section-tag mb-4">{c.tag}</p>
             <Title text={c.title} as={i === 0 ? 'h1' : 'h2'} />

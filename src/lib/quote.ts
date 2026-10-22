@@ -8,7 +8,7 @@ export function normalizePhone(input: string): string | null {
   return /^[6-9]\d{9}$/.test(d) ? d : null;
 }
 
-export interface QuoteFields { name: string; phone: string; city: string; quantity: string; grade: string }
+export interface QuoteFields { name: string; phone: string; city: string; quantity: string; brand: string; grade: string }
 
 /** Plain-text message used for both WhatsApp and the mailto body. Labels come from the active language. */
 export function buildQuoteMessage(intro: string, labels: Record<keyof QuoteFields, string>, f: QuoteFields) {

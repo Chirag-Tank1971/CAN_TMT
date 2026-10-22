@@ -7,6 +7,20 @@ export const site = {
   serviceArea: '[CITIES/STATES]', // TODO
 };
 
+/**
+ * Mills we buy from and supply. Logos are the owners' trademarks: add a file to public/brands/ only with
+ * permission, then set e.g. logo: '/brands/jindal.svg'. Until then the name is shown as text.
+ * `noteKey` points at a short note in translations (brands.notes).
+ */
+export const BRANDS: { name: string; logo: string | null; noteKey?: 'shortLength' }[] = [
+  { name: 'Kamdhenu TMT', logo: null, noteKey: 'shortLength' },
+  { name: 'Rathi TMT', logo: null },
+  { name: 'Sharma TMT', logo: null },
+  { name: 'Jindal TMT', logo: null },
+  { name: 'Premiere TMT', logo: null }, // TODO: confirm spelling ("Premier" vs "Premiere")
+  { name: 'Mangla TMT', logo: null },
+];
+
 export const GRADES = [
   { id: 'fe500', label: 'Fe 500' },
   { id: 'fe500d', label: 'Fe 500D' },

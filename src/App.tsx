@@ -6,6 +6,7 @@ import { FloatingWhatsApp } from './components/layout/FloatingWhatsApp';
 import { Footer } from './components/layout/Footer';
 import { Story } from './components/sections/Story';
 import { WhyCAN } from './components/sections/WhyCAN';
+import { Brands } from './components/sections/Brands';
 import { Process } from './components/sections/Process';
 // below the fold: keeps framer-motion out of the initial bundle
 const Products = lazy(() => import('./components/sections/Products').then((m) => ({ default: m.Products })));
@@ -31,6 +32,7 @@ export default function App() {
       <main id="main-content">
         <Story />
         <WhyCAN />
+        <Brands />
         <Process />
         <Suspense fallback={<div id="products" className="min-h-[900px]" />}><Products /></Suspense>
         <Applications />

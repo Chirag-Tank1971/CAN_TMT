@@ -3,7 +3,7 @@ import { useLang } from '../../lib/LangContext';
 import { scrollToTarget } from '../../lib/scroll';
 import { Logo } from './Logo';
 
-const HREFS = ['#why', '#products', '#applications', '#contact'];
+const HREFS = ['#why', '#brands', '#products', '#applications', '#contact'];
 
 export function Navbar() {
   const { t, lang, toggleLang } = useLang();
@@ -46,7 +46,7 @@ export function Navbar() {
           <Logo />
         </a>
 
-        <ul className="hidden md:flex items-center gap-8" role="list">
+        <ul className="hidden lg:flex items-center gap-7" role="list">
           {HREFS.map((href, i) => (
             <li key={href}>
               <a href={href} onClick={go(href)}
@@ -63,7 +63,7 @@ export function Navbar() {
             {t.nav.cta}
           </a>
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className="lg:hidden flex flex-col gap-1.5 p-2"
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
@@ -77,7 +77,7 @@ export function Navbar() {
       </nav>
 
       {/* CSS grid-rows collapse; `inert` keeps hidden links out of the tab order */}
-      <div id="mobile-menu" className={`md:hidden grid transition-[grid-template-rows] duration-300 ease-out ${menuOpen ? 'grid-rows-[1fr] border-t border-steel-700/40' : 'grid-rows-[0fr]'}`} inert={!menuOpen}>
+      <div id="mobile-menu" className={`lg:hidden grid transition-[grid-template-rows] duration-300 ease-out ${menuOpen ? 'grid-rows-[1fr] border-t border-steel-700/40' : 'grid-rows-[0fr]'}`} inert={!menuOpen}>
         <ul className="overflow-hidden" role="list">
           {HREFS.map((href, i) => (
             <li key={href}>

@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 import { useLang } from '../../lib/LangContext';
 import { useReveal } from '../../lib/useReveal';
-import { GRADES, site, waLink } from '../../config/site';
+import { BRANDS, GRADES, site, waLink } from '../../config/site';
 import { buildQuoteMessage, normalizePhone, type QuoteFields } from '../../lib/quote';
 import { SectionHeader } from '../ui/SectionHeader';
 
-const EMPTY: QuoteFields = { name: '', phone: '', city: '', quantity: '', grade: '' };
+const EMPTY: QuoteFields = { name: '', phone: '', city: '', quantity: '', brand: '', grade: '' };
 type Errors = Partial<Record<keyof QuoteFields, string>>;
 
 export function DealerContact() {
@@ -16,7 +16,7 @@ export function DealerContact() {
   const [data, setData] = useState(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
 
-  const labels = { name: f.name, phone: f.phone, city: f.city, quantity: f.quantity, grade: f.grade };
+  const labels = { name: f.name, phone: f.phone, city: f.city, quantity: f.quantity, brand: f.brand, grade: f.grade };
   const set = (k: keyof QuoteFields) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setData((d) => ({ ...d, [k]: e.target.value }));
     if (errors[k]) setErrors((x) => ({ ...x, [k]: undefined }));
@@ -32,7 +32,7 @@ export function DealerContact() {
     setErrors(errs);
     const first = Object.keys(errs)[0];
     if (first) { document.getElementById(`q-${first}`)?.focus(); return null; }
-    return buildQuoteMessage(f.intro, labels, { ...data, phone: phone!, grade: data.grade || f.gradeAny });
+    return buildQuoteMessage(f.intro, labels, { ...data, phone: phone!, brand: data.brand || f.brandAny, grade: data.grade || f.gradeAny });
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -47,7 +47,7 @@ export function DealerContact() {
 
   const field = (k: keyof QuoteFields, input: React.ReactNode) => (
     <div>
-      <label htmlFor={`q-${k}`} className="block text-xs font-barlow font-700 tracking-widest uppercase text-steel-300 mb-2">{labels[k]}{k !== 'quantity' && k !== 'grade' && ' *'}</label>
+      <label htmlFor={`q-${k}`} className="block text-xs font-barlow font-700 tracking-widest uppercase text-steel-300 mb-2">{labels[k]}{(k === 'name' || k === 'phone' || k === 'city') && ' *'}</label>
       {input}
       {errors[k] && <p id={`q-${k}-err`} className="mt-1.5 text-xs text-orange-300" role="alert">{errors[k]}</p>}
     </div>
@@ -89,13 +89,19 @@ export function DealerContact() {
           </div>
           <div className="grid sm:grid-cols-2 gap-5">
             {field('quantity', <input {...aria('quantity')} type="number" min="0" step="0.5" inputMode="decimal" className={inputCls('quantity')} value={data.quantity} onChange={set('quantity')} />)}
-            {field('grade', (
-              <select {...aria('grade')} className={inputCls('grade')} value={data.grade} onChange={set('grade')}>
-                <option value="">{f.gradeAny}</option>
-                {GRADES.map((g) => <option key={g.id} value={g.label}>{g.label}</option>)}
+            {field('brand', (
+              <select {...aria('brand')} className={inputCls('brand')} value={data.brand} onChange={set('brand')}>
+                <option value="">{f.brandAny}</option>
+                {BRANDS.map((b) => <option key={b.name} value={b.name}>{b.name}</option>)}
               </select>
             ))}
           </div>
+          {field('grade', (
+            <select {...aria('grade')} className={inputCls('grade')} value={data.grade} onChange={set('grade')}>
+              <option value="">{f.gradeAny}</option>
+              {GRADES.map((g) => <option key={g.id} value={g.label}>{g.label}</option>)}
+            </select>
+          ))}
           <button type="submit" className="btn-primary w-full justify-center !py-4">{f.submit}</button>
           <button type="button" onClick={onEmail} className="w-full text-sm text-steel-300 underline underline-offset-4 hover:text-orange-400">{f.email}</button>
         </form>
