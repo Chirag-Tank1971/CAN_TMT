@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .playwright-mcp
+
+# original brand artwork (not deployed; Premier flyer contains personal phone numbers)
+brand-sources/

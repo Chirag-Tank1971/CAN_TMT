@@ -33,7 +33,10 @@ export function Brands() {
                   )}
                 </span>
                 {brand.logo ? (
-                  <img src={brand.logo} alt={brand.name} loading="lazy" className="h-12 sm:h-16 w-auto max-w-full object-contain object-left opacity-90 group-hover:opacity-100" />
+                  // logos are artwork on white/colour backgrounds: show them on a uniform white plate
+                  <span className="flex items-center justify-center h-20 sm:h-28 rounded-sm bg-white p-2 sm:p-3 ring-1 ring-transparent group-hover:ring-orange-400 transition">
+                    <img src={brand.logo} alt={brand.name} loading="lazy" decoding="async" className="max-h-full max-w-full object-contain" />
+                  </span>
                 ) : (
                   <span className="font-barlow font-800 uppercase leading-none text-white text-3xl sm:text-5xl group-hover:text-orange-400 transition-colors">
                     {brand.name.replace(/ TMT$/, '')}

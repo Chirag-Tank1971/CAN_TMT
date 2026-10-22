@@ -9,16 +9,16 @@ export const site = {
 
 /**
  * Mills we buy from and supply. Logos are the owners' trademarks: add a file to public/brands/ only with
- * permission, then set e.g. logo: '/brands/jindal.svg'. Until then the name is shown as text.
+ * permission, then set e.g. logo: '/brands/jindal.webp' (cropped to the logo, web-optimised). Until then the name is shown as text.
  * `noteKey` points at a short note in translations (brands.notes).
  */
 export const BRANDS: { name: string; logo: string | null; noteKey?: 'shortLength' }[] = [
-  { name: 'Kamdhenu TMT', logo: null, noteKey: 'shortLength' },
-  { name: 'Rathi TMT', logo: null },
-  { name: 'Sharma TMT', logo: null },
-  { name: 'Jindal TMT', logo: null },
-  { name: 'Premiere TMT', logo: null }, // TODO: confirm spelling ("Premier" vs "Premiere")
-  { name: 'Mangla TMT', logo: null },
+  { name: 'Kamdhenu TMT', logo: '/brands/kamdhenu.webp', noteKey: 'shortLength' },
+  { name: 'Rathi TMT', logo: '/brands/rathi.webp' },
+  { name: 'Sharma TMT', logo: null }, // TODO: the file supplied showed "Shree TMT Xtra 550", not Sharma
+  { name: 'Jindal TMT', logo: '/brands/jindal.webp' },
+  { name: 'Premier TMT', logo: '/brands/premier.webp' }, // TODO: low-res crop from a flyer; replace with a clean logo file
+  { name: 'Mangalam TMT', logo: '/brands/mangalam.webp' },
 ];
 
 export const GRADES = [
