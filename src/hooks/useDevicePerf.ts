@@ -1,40 +1,26 @@
-import { useEffect, useRef } from 'react';
+import type { Tier } from '../three/barConfig';
 
-/**
- * Detects low-performance devices based on navigator.hardwareConcurrency
- * and navigator.deviceMemory (where available).
- */
-export function useDevicePerf() {
-  const isLowPower =
-    (navigator.hardwareConcurrency ?? 4) <= 2 ||
-    ((navigator as any).deviceMemory ?? 4) <= 2;
+const nav = navigator as Navigator & { deviceMemory?: number };
 
-  const prefersReducedMotion =
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  return { isLowPower, prefersReducedMotion };
+/** 'low' for phones, small screens and weak hardware: fewer segments, smaller maps, simpler chapter 6. */
+export function getTier(): Tier {
+  if (new URLSearchParams(location.search).has('low')) return 'low';
+  const weak = (nav.hardwareConcurrency ?? 4) <= 4 || (nav.deviceMemory ?? 8) <= 4;
+  const phone = matchMedia('(pointer: coarse)').matches || innerWidth < 768;
+  return weak || phone ? 'low' : 'high';
 }
 
-/** Returns current scroll progress 0→1 for a given element ref */
-export function useScrollProgress(ref: React.RefObject<HTMLElement | null>) {
-  const progress = useRef(0);
+export const prefersReducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+/** WebGL available at all? Otherwise the static image fallback is shown. */
+export function hasWebGL() {
+  try {
+    return !!document.createElement('canvas').getContext('webgl2');
+  } catch {
+    return false;
+  }
+}
 
-    const onScroll = () => {
-      const rect = el.getBoundingClientRect();
-      const windowH = window.innerHeight;
-      const total = rect.height + windowH;
-      const scrolled = windowH - rect.top;
-      progress.current = Math.max(0, Math.min(1, scrolled / total));
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [ref]);
-
-  return progress;
+export function useDevicePerf() {
+  return { tier: getTier(), isLowPower: getTier() === 'low', prefersReducedMotion: prefersReducedMotion() };
 }
