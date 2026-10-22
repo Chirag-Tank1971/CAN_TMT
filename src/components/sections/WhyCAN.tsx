@@ -20,8 +20,8 @@ export function WhyCAN() {
             <li key={item.title} data-reveal className="draw-top metal-card !border-0 p-7 lg:p-8 flex flex-col gap-5 transition-colors"
               style={{ '--d': `${i * 90}ms` } as React.CSSProperties}>
               <span className="font-barlow text-sm text-steel-500 tracking-widest">0{i + 1}</span>
-              <Icon name={ICONS[i]} className="w-11 h-11 text-orange-400" />
-              <h3 className="font-barlow font-700 text-2xl uppercase text-white leading-tight">{item.title}</h3>
+              <Icon name={ICONS[i]} className="w-11 h-11 text-orange-600" />
+              <h3 className="font-barlow font-700 text-2xl uppercase text-ink leading-tight">{item.title}</h3>
               <p className="text-sm text-steel-300 leading-relaxed">{item.body}</p>
             </li>
           ))}

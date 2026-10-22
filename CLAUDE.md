@@ -30,8 +30,11 @@ Static marketing site for CAN TMT, a brand of TMT steel bars (Vite + React + TS 
   - Never pass an object that is also a React `style` prop to GSAP. React freezes it in dev.
 - **SVG:** CSS variables must go in `style`, not presentation attributes.
 - **Styling:**
-  - Tailwind tokens: `charcoal`, `orange`, `steel` (400/500 tuned to ≥4.5:1 on charcoal).
-  - Primary buttons use charcoal text on orange, for contrast.
+  - Light theme. Tailwind tokens: `paper` (page/card surfaces), `ink` (text), `orange`, `steel`.
+  - `steel` is inverted for the light theme: 50–500 are text greys (300/400/500 ≥4.5:1 on paper), 600–900 are borders and fills.
+  - Orange: `orange-400` (#FF6A00) only for fills, lines and dots. Orange text uses `orange-600` / `--color-accent-text`, since #FF6A00 text fails contrast on light.
+  - Primary buttons use ink text on orange, for contrast.
+  - After editing `tailwind.config.js`, restart `npm run dev`: a running dev server keeps the old tokens.
   - Component classes live in `@layer components`, so utilities can override them.
 - **Fonts** are self-hosted in `public/fonts` with fixed URLs (preloaded in `index.html`). Hindi falls back to the system Devanagari font, and `:lang(hi)` rules tighten tracking.
 - Commit per milestone. Keep `npm run build` and `npm test` green.

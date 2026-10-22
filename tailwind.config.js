@@ -4,13 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        charcoal: {
-          DEFAULT: '#0E0E10',
-          50: '#1a1a1e',
-          100: '#141416',
-          200: '#0E0E10',
-          300: '#080809',
+        // light theme: page/card surfaces (warm off-white) and the text colour
+        paper: {
+          DEFAULT: '#F6F4EF',
+          50: '#FFFFFF',
+          100: '#EFECE6',
+          200: '#F6F4EF',
+          300: '#EFECE6',
         },
+        ink: '#15171A',
         orange: {
           DEFAULT: '#FF6A00',
           50: '#fff3e8',
@@ -21,17 +23,19 @@ export default {
           500: '#d45600',
           600: '#a84300',
         },
+        // inverted for the light theme: low numbers = dark text, high numbers = light borders/fills.
+        // 300/400/500 are ≥4.5:1 on paper (AA small text).
         steel: {
-          50: '#f4f5f6',
-          100: '#dde0e3',
-          200: '#b8bec5',
-          300: '#8e99a4',
-          400: '#848f9b', // ≥4.5:1 on charcoal (AA small text)
-          500: '#7a8693', // ≥4.5:1 on charcoal
-          600: '#3a4450',
-          700: '#272f38',
-          800: '#161c22',
-          900: '#0a0d10',
+          50: '#0f1215',
+          100: '#1d2227',
+          200: '#2a3037',
+          300: '#434c56',
+          400: '#525c67',
+          500: '#5d6772',
+          600: '#b9c0c7',
+          700: '#d6dbe0',
+          800: '#e6e9ec',
+          900: '#f2f4f5',
         },
       },
       fontFamily: {

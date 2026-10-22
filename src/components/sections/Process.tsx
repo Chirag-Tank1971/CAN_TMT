@@ -96,14 +96,14 @@ export function Process() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <div className="order-2 lg:order-1">
           <p className="section-tag mb-4">{p.tag}</p>
-          <h2 id="process-heading" className="section-heading text-white mb-8 lg:mb-12">{p.title}</h2>
+          <h2 id="process-heading" className="section-heading text-ink mb-8 lg:mb-12">{p.title}</h2>
           <ol className="space-y-6 relative border-l border-steel-700/50 pl-6">
             {p.steps.map((s, i) => (
               <li key={s.title}
                 className={`relative transition-all duration-500 ${step === i || reduced ? 'opacity-100' : 'opacity-35 max-lg:hidden'} ${step === -1 && i === 0 ? 'max-lg:!block' : ''}`}
                 aria-current={step === i ? 'step' : undefined}>
                 <span className={`absolute -left-[31px] top-1.5 w-2.5 h-2.5 rounded-full transition-colors ${step >= i ? 'bg-orange-400 shadow-[0_0_12px_#FF6A00]' : 'bg-steel-600'}`} />
-                <h3 className="font-barlow font-700 text-2xl uppercase text-white"><span className="text-orange-400 mr-3">0{i + 1}</span>{s.title}</h3>
+                <h3 className="font-barlow font-700 text-2xl uppercase text-ink"><span className="text-orange-600 mr-3">0{i + 1}</span>{s.title}</h3>
                 <p className="mt-2 text-steel-300 max-w-md">{s.body}</p>
               </li>
             ))}

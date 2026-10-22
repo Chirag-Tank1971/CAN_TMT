@@ -49,11 +49,11 @@ export function DealerContact() {
     <div>
       <label htmlFor={`q-${k}`} className="block text-xs font-barlow font-700 tracking-widest uppercase text-steel-300 mb-2">{labels[k]}{(k === 'name' || k === 'phone' || k === 'city') && ' *'}</label>
       {input}
-      {errors[k] && <p id={`q-${k}-err`} className="mt-1.5 text-xs text-orange-300" role="alert">{errors[k]}</p>}
+      {errors[k] && <p id={`q-${k}-err`} className="mt-1.5 text-xs text-orange-600" role="alert">{errors[k]}</p>}
     </div>
   );
   const inputCls = (k: keyof QuoteFields) =>
-    `w-full bg-charcoal-50 border ${errors[k] ? 'border-orange-400' : 'border-steel-600/50'} rounded-sm px-4 py-3 text-white placeholder-steel-500 focus:border-orange-400 focus:outline-none transition-colors`;
+    `w-full bg-paper-50 border ${errors[k] ? 'border-orange-400' : 'border-steel-600/50'} rounded-sm px-4 py-3 text-ink placeholder-steel-500 focus:border-orange-400 focus:outline-none transition-colors`;
   const aria = (k: keyof QuoteFields) => ({ id: `q-${k}`, 'aria-invalid': !!errors[k], 'aria-describedby': errors[k] ? `q-${k}-err` : undefined });
 
   const contacts = [
@@ -71,10 +71,10 @@ export function DealerContact() {
           <SectionHeader id="contact-heading" tag={c.tag} title={c.title} body={c.body} />
           <dl className="grid sm:grid-cols-2 gap-px bg-steel-700/30 border border-steel-700/30" data-reveal>
             {contacts.map((x) => (
-              <div key={x.label} className="bg-charcoal p-5 min-w-0">
+              <div key={x.label} className="bg-paper p-5 min-w-0">
                 <dt className="text-xs font-barlow font-700 tracking-widest uppercase text-steel-400">{x.label}</dt>
-                <dd className="mt-1 text-white break-words">
-                  {x.href ? <a href={x.href} {...(x.ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="hover:text-orange-400 transition-colors">{x.value}</a> : x.value}
+                <dd className="mt-1 text-ink break-words">
+                  {x.href ? <a href={x.href} {...(x.ext ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className="hover:text-orange-600 transition-colors">{x.value}</a> : x.value}
                 </dd>
               </div>
             ))}
@@ -103,7 +103,7 @@ export function DealerContact() {
             </select>
           ))}
           <button type="submit" className="btn-primary w-full justify-center !py-4">{f.submit}</button>
-          <button type="button" onClick={onEmail} className="w-full text-sm text-steel-300 underline underline-offset-4 hover:text-orange-400">{f.email}</button>
+          <button type="button" onClick={onEmail} className="w-full text-sm text-steel-300 underline underline-offset-4 hover:text-orange-600">{f.email}</button>
         </form>
       </div>
     </section>

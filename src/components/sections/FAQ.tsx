@@ -20,9 +20,9 @@ export function FAQ() {
               <div key={item.q} className="border-b border-steel-700/50" data-reveal style={{ '--d': `${i * 70}ms` } as React.CSSProperties}>
                 <h3>
                   <button id={`faq-q-${i}`} aria-expanded={isOpen} aria-controls={`faq-a-${i}`} onClick={() => setOpen(isOpen ? null : i)}
-                    className="w-full flex items-center justify-between gap-6 py-6 text-left font-barlow font-700 text-xl sm:text-2xl uppercase text-white hover:text-orange-400 transition-colors">
+                    className="w-full flex items-center justify-between gap-6 py-6 text-left font-barlow font-700 text-xl sm:text-2xl uppercase text-ink hover:text-orange-600 transition-colors">
                     {item.q}
-                    <span className={`shrink-0 w-8 h-8 border border-steel-600 rounded-full grid place-items-center transition-transform duration-500 ${isOpen ? 'rotate-45 border-orange-400 text-orange-400' : ''}`} aria-hidden="true">+</span>
+                    <span className={`shrink-0 w-8 h-8 border border-steel-600 rounded-full grid place-items-center transition-transform duration-500 ${isOpen ? 'rotate-45 border-orange-400 text-orange-600' : ''}`} aria-hidden="true">+</span>
                   </button>
                 </h3>
                 <div id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}

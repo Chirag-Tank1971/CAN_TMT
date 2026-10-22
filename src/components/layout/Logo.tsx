@@ -9,8 +9,8 @@ export function Logo({ className = '' }: { className?: string }) {
             transform={`translate(17 17) rotate(${-140 + i * 70}) translate(12 0) rotate(25)`} />
         ))}
       </svg>
-      <span className="font-barlow font-800 text-xl md:text-2xl tracking-[0.18em] text-white leading-none whitespace-nowrap">
-        CAN<span className="text-orange-400"> TMT</span>
+      <span className="font-barlow font-800 text-xl md:text-2xl tracking-[0.18em] text-ink leading-none whitespace-nowrap">
+        CAN<span className="text-orange-600"> TMT</span>
       </span>
     </span>
   );

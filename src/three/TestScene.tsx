@@ -31,7 +31,7 @@ export default function TestScene() {
   for (const k of ['uMix', 'uBend', 'uSection', 'uHeat'] as const) if (params.has(k)) barUniforms[k].value = +params.get(k)!;
 
   return (
-    <div className="fixed inset-0 bg-charcoal">
+    <div className="fixed inset-0 bg-paper">
       <Canvas key={view} camera={{ position: [...v.position], fov: 35 }} dpr={[1, 1.5]}>
         <color attach="background" args={['#0E0E10']} />
         <StudioLights />

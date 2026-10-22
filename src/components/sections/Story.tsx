@@ -198,7 +198,7 @@ export function Story() {
         )}
       </div>
       {/* readability: darken behind the text column (left on desktop, bottom on mobile) */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent lg:bg-gradient-to-r lg:from-charcoal/90 lg:via-charcoal/30 lg:to-transparent" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-paper via-paper/40 to-transparent lg:bg-gradient-to-r lg:from-paper lg:via-paper/55 lg:to-transparent" />
 
       {/* 3D-pinned callouts need room; on phones the same labels appear as tags in the panel instead */}
       <div className="absolute inset-0 pointer-events-none hidden sm:block" aria-hidden="true">
@@ -221,7 +221,7 @@ export function Story() {
             {TAGS[i].length > 0 && (
               <ul className="sm:hidden flex flex-wrap gap-2 mt-4" role="list">
                 {TAGS[i].map((tag) => (
-                  <li key={tag} className="font-barlow font-700 text-xs uppercase tracking-wider text-white bg-charcoal/70 border-l-2 border-orange-400 px-2 py-1">{tag}</li>
+                  <li key={tag} className="font-barlow font-700 text-xs uppercase tracking-wider text-ink bg-paper/70 border-l-2 border-orange-400 px-2 py-1">{tag}</li>
                 ))}
               </ul>
             )}

@@ -33,7 +33,7 @@ export function Stats() {
   }, []);
 
   return (
-    <section id="stats" ref={ref} className="section-pad relative z-10 border-y border-steel-700/30 bg-charcoal-100/60" aria-labelledby="stats-heading">
+    <section id="stats" ref={ref} className="section-pad relative z-10 border-y border-steel-700/30 bg-paper-100/60" aria-labelledby="stats-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <SectionHeader id="stats-heading" tag={t.stats.tag} title={t.stats.title} />
         <dl className="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
@@ -43,7 +43,7 @@ export function Stats() {
               <dd className="stat-value -order-1 mb-2">
                 <span ref={(n) => { nums.current[i] = n; }}>0</span>{s.suffix}
               </dd>
-              {!STATS.confirmed && <dd className="mt-2"><span className="inline-block text-[10px] uppercase tracking-widest text-orange-300 border border-orange-400/40 px-1.5 py-0.5">TODO · {t.stats.todo}</span></dd>}
+              {!STATS.confirmed && <dd className="mt-2"><span className="inline-block text-[10px] uppercase tracking-widest text-orange-600 border border-orange-400/40 px-1.5 py-0.5">TODO · {t.stats.todo}</span></dd>}
             </div>
           ))}
         </dl>

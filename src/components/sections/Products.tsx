@@ -45,7 +45,7 @@ export function Products() {
   const msg = p.waMsg.replace('{grade}', grade.label).replace('{dia}', String(dia));
 
   const chip = (active: boolean) =>
-    `font-barlow font-700 tracking-wider transition-colors border rounded-sm ${active ? 'border-orange-400 bg-orange-400 text-charcoal' : 'border-steel-600/60 text-steel-200 hover:border-orange-400 hover:text-orange-400'}`;
+    `font-barlow font-700 tracking-wider transition-colors border rounded-sm ${active ? 'border-orange-400 bg-orange-400 text-ink' : 'border-steel-600/60 text-steel-200 hover:border-orange-400 hover:text-orange-600'}`;
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -82,9 +82,9 @@ export function Products() {
             <AnimatePresence mode="wait" initial={false}>
               <m.dl key={grade.id + dia} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}
                 className="grid grid-cols-2 gap-x-6 gap-y-5 mt-6" aria-live="polite">
-                <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.grade}</dt><dd className="font-barlow font-800 text-3xl text-white">{grade.label}</dd></div>
-                <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.diameter}</dt><dd className="font-barlow font-800 text-3xl text-white">{dia} mm</dd></div>
-                <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.weight}</dt><dd className={weight ? 'font-barlow font-800 text-3xl text-white' : 'text-sm text-orange-300 mt-2'}>{weight ? `${weight} kg/m` : p.weightTodo}</dd></div>
+                <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.grade}</dt><dd className="font-barlow font-800 text-3xl text-ink">{grade.label}</dd></div>
+                <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.diameter}</dt><dd className="font-barlow font-800 text-3xl text-ink">{dia} mm</dd></div>
+                <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.weight}</dt><dd className={weight ? 'font-barlow font-800 text-3xl text-ink' : 'text-sm text-orange-600 mt-2'}>{weight ? `${weight} kg/m` : p.weightTodo}</dd></div>
                 <div><dt className="text-xs uppercase tracking-widest text-steel-400 font-barlow">{p.bestFor}</dt><dd className="text-sm text-steel-200 mt-1">{p.uses[grade.id]}</dd></div>
               </m.dl>
             </AnimatePresence>
