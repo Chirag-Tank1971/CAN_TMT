@@ -8,7 +8,7 @@ A static site for CAN TMT bars. The 3D TMT bar is generated in code (no model fi
 
 ## Setup
 
-Requires Node 22.18 or newer (the test script runs TypeScript directly).
+Require Node 22.18 or newer (the test script runs TypeScript directly).
 
 ```bash
 npm install
