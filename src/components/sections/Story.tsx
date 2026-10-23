@@ -168,12 +168,12 @@ export function Story() {
   const TAGS: string[][] = [[], [s.ch2.ribs, s.ch2.longRib], [s.ch3.mark], [s.ch4.ring, s.ch4.core], [], [], []];
   // the three founders CAN is named after: their initials spell C · A · N
   const Founders = (
-    <ul className="grid grid-cols-3 gap-2 sm:gap-3 mt-6 max-w-lg" role="list">
+    <ul className="story-founders grid grid-cols-3 gap-2 sm:gap-3 mt-6 max-w-lg" role="list">
       {TEAM.map((m) => (
         <li key={m.name} className="metal-card rounded-sm p-3 sm:p-4">
           {m.photo
             ? <img src={m.photo} alt={t.team.photoAlt.replace('{name}', m.name)} className="w-full aspect-square object-cover rounded-sm" />
-            : <span className="block font-barlow font-800 text-5xl sm:text-6xl leading-none text-orange-400" aria-hidden="true">{m.name[0]}</span>}
+            : <span className="story-initial block font-barlow font-800 text-5xl sm:text-6xl leading-none text-orange-400" aria-hidden="true">{m.name[0]}</span>}
           <span className="block mt-2 font-barlow font-700 text-sm sm:text-lg uppercase text-ink leading-tight">{m.name}</span>
           <span className={`block mt-0.5 text-[11px] sm:text-xs ${m.role ? 'text-steel-300' : 'text-orange-600'}`}>{m.role ?? t.team.roleTodo}</span>
         </li>
