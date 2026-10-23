@@ -4,9 +4,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { useLang } from '../../lib/LangContext';
 import { scrollToTarget } from '../../lib/scroll';
-import { waLink } from '../../config/site';
+import { TEAM, waLink } from '../../config/site';
 import { getTier, hasWebGL, prefersReducedMotion } from '../../hooks/useDevicePerf';
-import { story, anchors, pointer, CHAPTERS } from '../../three/storyState';
+import { story, anchors, pointer, CHAPTERS, STORY_END } from '../../three/storyState';
 import { barUniforms } from '../../three/uniforms';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -84,7 +84,7 @@ export function Story() {
       scrollTrigger: {
         trigger: root.current,
         start: 'top top',
-        end: () => `+=${innerHeight * (tier === 'low' ? 4.5 : 7)}`,
+        end: () => `+=${innerHeight * (tier === 'low' ? 5.5 : 8.5)}`,
         pin: true,
         scrub: 1,
         invalidateOnRefresh: true,
@@ -133,8 +133,12 @@ export function Story() {
     tl.to(story, { cage: 1, duration: 0.13, ease: 'none' }, 0.8);
     tl.to(story, { cx: 25, cy: 11, cz: 37, tx: 0, ty: -0.6, tz: 0, shift: 0.8, duration: 0.15 }, 0.79);
     tl.to(story, { house: 1, duration: 0.05 }, 0.91);
-    panel(5, 0.88);
-    tl.set({}, {}, 1); // pin the timeline length to exactly 1 so CHAPTERS map 1:1 to progress
+    panel(5, 0.88, 0.99);
+
+    // Ch7: the people behind the name; the camera swings slowly round the finished frame
+    tl.to(story, { cx: -22, cy: 9, cz: 36, duration: 0.18, ease: 'power1.inOut' }, 1.0);
+    panel(6, 1.03);
+    tl.set({}, {}, STORY_END); // fix the timeline length so CHAPTERS map 1:1 to progress
 
     return () => {
       Object.assign(story, STORY0);
@@ -145,7 +149,8 @@ export function Story() {
   const goTo = (i: number) => {
     const st = trigger.current;
     if (!st) return;
-    const p = i === 0 ? 0 : CHAPTERS[i] + (i === 5 ? 0.18 : 0.08);
+    const HOLD = [0, 0.08, 0.08, 0.08, 0.08, 0.13, 0.1]; // timeline time after a chapter starts where it is fully shown
+    const p = i === 0 ? 0 : CHAPTERS[i] + HOLD[i] / STORY_END;
     scrollToTarget(st.start + (st.end - st.start) * p);
   };
 
@@ -159,8 +164,22 @@ export function Story() {
   const Title = ({ text, as: H = 'h2' }: { text: string; as?: 'h1' | 'h2' }) => (
     <H className="story-title">{text.split('\n').map((l, i) => <span key={i} className="block">{l}{' '}</span>)}</H>
   );
-  const chapters = [s.ch1, s.ch2, s.ch3, s.ch4, s.ch5, s.ch6];
-  const TAGS: string[][] = [[], [s.ch2.ribs, s.ch2.longRib], [s.ch3.mark], [s.ch4.ring, s.ch4.core], [], []];
+  const chapters = [s.ch1, s.ch2, s.ch3, s.ch4, s.ch5, s.ch6, t.team];
+  const TAGS: string[][] = [[], [s.ch2.ribs, s.ch2.longRib], [s.ch3.mark], [s.ch4.ring, s.ch4.core], [], [], []];
+  // the three founders CAN is named after: their initials spell C · A · N
+  const Founders = (
+    <ul className="grid grid-cols-3 gap-2 sm:gap-3 mt-6 max-w-lg" role="list">
+      {TEAM.map((m) => (
+        <li key={m.name} className="metal-card rounded-sm p-3 sm:p-4">
+          {m.photo
+            ? <img src={m.photo} alt={t.team.photoAlt.replace('{name}', m.name)} className="w-full aspect-square object-cover rounded-sm" />
+            : <span className="block font-barlow font-800 text-5xl sm:text-6xl leading-none text-orange-400" aria-hidden="true">{m.name[0]}</span>}
+          <span className="block mt-2 font-barlow font-700 text-sm sm:text-lg uppercase text-ink leading-tight">{m.name}</span>
+          <span className={`block mt-0.5 text-[11px] sm:text-xs ${m.role ? 'text-steel-300' : 'text-orange-600'}`}>{m.role ?? t.team.roleTodo}</span>
+        </li>
+      ))}
+    </ul>
+  );
 
   if (reduced) {
     return (
@@ -172,7 +191,8 @@ export function Story() {
               <p className="section-tag mb-4">{c.tag}</p>
               <Title text={c.title} as={i === 0 ? 'h1' : 'h2'} />
               <p className="story-body">{c.body}</p>
-              {(i === 0 || i === 5) && CTAs}
+              {i === 6 && Founders}
+              {(i === 0 || i === 6) && CTAs}
             </div>
           ))}
         </div>
@@ -235,7 +255,8 @@ export function Story() {
                 </div>
               </div>
             )}
-            {(i === 0 || i === 5) && CTAs}
+            {i === 6 && Founders}
+            {(i === 0 || i === 6) && CTAs}
           </div>
           </div>
         ))}

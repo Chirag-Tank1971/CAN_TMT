@@ -11,7 +11,7 @@ export const en = {
     ctaSecondary: 'WhatsApp Us',
   },
   story: {
-    chapters: ['The Bar', 'Grip', 'Identity', 'Inside', 'Flex', 'Your Home'],
+    chapters: ['The Bar', 'Grip', 'Identity', 'Inside', 'Flex', 'Your Home', 'Who we are'],
     scroll: 'Scroll',
     ch1: { tag: 'Yes, we CAN build it.', title: 'Steel that holds\nyour home together', body: 'TMT bars (saria) from trusted mills, for homes and every kind of construction. Mazboot Neev, Mazboot Ghar.' },
     ch2: { tag: 'Grip', title: 'Grip that\ndoesn\'t let go', body: 'Angled ribs lock into concrete, so steel and concrete work as one.', ribs: 'Angled ribs lock into concrete', longRib: 'Longitudinal rib' },

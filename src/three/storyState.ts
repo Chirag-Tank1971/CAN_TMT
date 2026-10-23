@@ -1,7 +1,10 @@
 import { barConfig as C } from './barConfig';
 
-/** Chapter start points on the 0–1 scroll progress of the pinned story (end = next start, last ends at 1). */
-export const CHAPTERS = [0, 0.14, 0.3, 0.46, 0.62, 0.78];
+/** Chapter start times on the story timeline, which runs from 0 to STORY_END. */
+export const STARTS = [0, 0.14, 0.3, 0.46, 0.62, 0.78, 1.0];
+export const STORY_END = 1.22;
+/** The same starts as 0–1 scroll progress of the pinned story (end = next start, last ends at 1). */
+export const CHAPTERS = STARTS.map((t) => t / STORY_END);
 
 /** Plain mutable object: GSAP tweens it, useFrame reads it. Initial values = chapter 1 pose. */
 export const story = {

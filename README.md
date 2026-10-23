@@ -79,7 +79,7 @@ Set `embossText` (default `CAN TMT`), `embossSize`, `embossHeight` and `embossEv
 
 ## Scroll story
 
-`src/components/sections/Story.tsx` holds one GSAP timeline, scrubbed over 700 vh on desktop and 450 vh on phones. Chapter start points are listed in `CHAPTERS` in `src/three/storyState.ts`. The timeline tweens a plain `story` object plus the material uniforms, and the 3D scene reads them every frame. Callout labels are HTML elements pinned to 3D points through `anchors` in `storyState.ts`.
+`src/components/sections/Story.tsx` holds one GSAP timeline, scrubbed over 850 vh on desktop and 550 vh on phones, 7 chapters ending with the founders. Chapter start points are listed in `CHAPTERS` in `src/three/storyState.ts`. The timeline tweens a plain `story` object plus the material uniforms, and the 3D scene reads them every frame. Callout labels are HTML elements pinned to 3D points through `anchors` in `storyState.ts`.
 
 Performance choices:
 - WebGL starts on the visitor's first interaction (pointer, touch, scroll or key). Until then the static `public/fallback-bar.webp` shows. Visitors with no WebGL keep the image.
