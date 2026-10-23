@@ -5,7 +5,7 @@ const nav = navigator as Navigator & { deviceMemory?: number };
 /** 'low' for phones, small screens and weak hardware: fewer segments, smaller maps, simpler chapter 6. */
 export function getTier(): Tier {
   if (new URLSearchParams(location.search).has('low')) return 'low';
-  const weak = (nav.hardwareConcurrency ?? 4) <= 4 || (nav.deviceMemory ?? 8) <= 4;
+  const weak = (nav.hardwareConcurrency ?? 4) <= 2 || (nav.deviceMemory ?? 8) <= 2; // 4-core laptops get the sharp tier
   const phone = matchMedia('(pointer: coarse)').matches || innerWidth < 768;
   return weak || phone ? 'low' : 'high';
 }

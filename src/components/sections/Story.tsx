@@ -199,8 +199,8 @@ export function Story() {
           </Suspense>
         )}
       </div>
-      {/* readability: darken behind the text column (left on desktop, bottom on mobile) */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-paper via-paper/40 to-transparent lg:bg-gradient-to-r lg:from-paper lg:via-paper/55 lg:to-transparent" />
+      {/* readability: white fade only behind the text column (left on desktop, bottom on mobile), never over the steel */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-paper from-20% via-paper/60 via-35% to-transparent to-55% lg:bg-gradient-to-r lg:from-paper lg:from-15% lg:via-paper/60 lg:via-30% lg:to-transparent lg:to-48%" />
 
       {/* 3D-pinned callouts need room; on phones the same labels appear as tags in the panel instead */}
       <div className="absolute inset-0 pointer-events-none hidden sm:block" aria-hidden="true">

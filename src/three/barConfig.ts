@@ -27,8 +27,8 @@ export const barConfig = {
 
   // Resolution per device tier
   tiers: {
-    high: { radial: 128, segments: 1100, mapW: 768 },
-    low: { radial: 48, segments: 420, mapW: 384 },
+    high: { radial: 128, segments: 1100, mapW: 1024 },
+    low: { radial: 56, segments: 480, mapW: 512 },
   },
 
   // Set to e.g. '/models/bar.glb' to use a scanned model instead (see README).
