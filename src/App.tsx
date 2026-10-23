@@ -13,6 +13,7 @@ const Products = lazy(() => import('./components/sections/Products').then((m) =>
 import { Applications } from './components/sections/Applications';
 import { Stats } from './components/sections/Stats';
 import { HowToOrder } from './components/sections/HowToOrder';
+import { Team } from './components/sections/Team';
 import { DealerContact } from './components/sections/DealerContact';
 import { FAQ } from './components/sections/FAQ';
 
@@ -38,6 +39,7 @@ export default function App() {
         <Applications />
         <Stats />
         <HowToOrder />
+        <Team />
         <DealerContact />
         <FAQ />
       </main>

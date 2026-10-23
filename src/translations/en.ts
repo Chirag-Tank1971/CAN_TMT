@@ -83,6 +83,13 @@ export const en = {
     ],
     hint: 'Tap a card',
   },
+  team: {
+    tag: 'Who we are',
+    title: 'Three names.\nOne promise.',
+    body: 'CAN comes from our first names: Chirag, Aakash and Nipendra. Talk to any one of us about your order.',
+    roleTodo: '[TODO: role]',
+    photoAlt: 'Photo of {name}',
+  },
   stats: {
     tag: 'Track record',
     title: 'Numbers that\nbuild trust',

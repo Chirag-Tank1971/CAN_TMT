@@ -21,6 +21,16 @@ export const BRANDS: { name: string; logo: string | null; noteKey?: 'shortLength
   { name: 'Mangalam TMT', logo: '/brands/mangalam.webp' },
 ];
 
+/**
+ * The three people CAN is named after (C-A-N), in that order. TODO: add each role, and a photo in
+ * public/team/ (e.g. photo: '/team/chirag.webp'). Until then the role shows as TODO and the initial is shown.
+ */
+export const TEAM: { name: string; role: string | null; photo: string | null }[] = [
+  { name: 'Chirag Tank', role: null, photo: null },
+  { name: 'Aakash Singh', role: null, photo: null },
+  { name: 'Nipendra Singh', role: null, photo: null },
+];
+
 export const GRADES = [
   { id: 'fe500', label: 'Fe 500' },
   { id: 'fe500d', label: 'Fe 500D' },
