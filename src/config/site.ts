@@ -22,13 +22,13 @@ export const BRANDS: { name: string; logo: string | null; noteKey?: 'shortLength
 ];
 
 /**
- * The three people CAN is named after (C-A-N), in that order. TODO: add each role, and a photo in
- * public/team/ (e.g. photo: '/team/chirag.webp'). Until then the role shows as TODO and the initial is shown.
+ * The three people CAN is named after (C-A-N), in that order. Optional photo: put it in public/team/
+ * (e.g. photo: '/team/chirag.webp'); until then the initial is shown.
  */
 export const TEAM: { name: string; role: string | null; photo: string | null }[] = [
-  { name: 'Chirag Tank', role: null, photo: null },
-  { name: 'Aakash Singh', role: null, photo: null },
-  { name: 'Nipendra Singh', role: null, photo: null },
+  { name: 'Chirag Tank', role: 'CTO & COO', photo: null },
+  { name: 'Aakash Singh', role: 'CBO', photo: null },
+  { name: 'Nipendra Singh', role: 'CEO & CRO', photo: null },
 ];
 
 export const GRADES = [
