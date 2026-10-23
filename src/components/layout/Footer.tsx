@@ -40,7 +40,7 @@ export function Footer() {
             </ul>
             <a href={waLink(t.wa.general)} target="_blank" rel="noopener noreferrer"
               className="mt-5 inline-flex font-barlow font-700 text-sm tracking-widest uppercase text-[#0f7a40] hover:text-[#0a5c30]">
-              {t.hero.ctaSecondary} →
+              {t.hero.ctaSecondary}
             </a>
           </address>
         </div>

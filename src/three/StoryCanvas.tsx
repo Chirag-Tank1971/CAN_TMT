@@ -72,7 +72,7 @@ function StoryBar({ tier, onReady }: { tier: Tier; onReady: () => void }) {
       V.set(...an.p).applyMatrix4(g.matrixWorld).project(camera);
       const x = ((V.x + 1) / 2) * size.width;
       an.el.style.transform = `translate3d(${x}px, ${((1 - V.y) / 2) * size.height}px, 0)`;
-      an.el.classList.toggle('callout-left', x > size.width * 0.55); // label always points into the screen
+      an.el.classList.toggle('callout-left', x > size.width - 300); // flip only when the label would run off the right edge
     }
   });
 

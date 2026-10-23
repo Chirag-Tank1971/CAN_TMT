@@ -12,7 +12,6 @@
 
 /* ─── Custom Properties ─────────────────────────────────────────── */
 :root {
-  color-scheme: only light;
   --color-bg: #FFFFFF;
   --color-accent: #FF6A00;
   --color-accent-dim: rgba(255, 106, 0, 0.15);
@@ -38,9 +37,6 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   overflow-x: hidden;
-  /* Grain overlay */
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
 }
 
 /* ─── Grid Lines Overlay ────────────────────────────────────────── */
@@ -51,9 +47,10 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background-image:
-    linear-gradient(rgba(255,106,0,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,106,0,0.025) 1px, transparent 1px);
-  background-size: 60px 60px;
+    /* faint blueprint grid: the page reads like a structural drawing sheet */
+    linear-gradient(rgba(60,80,105,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(60,80,105,0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
 }
 
 /* ─── Typography ────────────────────────────────────────────────── */
@@ -86,23 +83,24 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Utility Classes ───────────────────────────────────────────── */
 .section-tag {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--color-accent-text);
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
+/* a short cut of orange bar, like a painted rebar end */
 .section-tag::before {
   content: '';
   display: block;
-  width: 2rem;
-  height: 1px;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
   background: var(--color-accent);
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,.18);
 }
 
 .section-heading {
@@ -121,17 +119,11 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
-.metal-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,106,0,0.05) 0%, transparent 50%);
-  pointer-events: none;
-}
 
+.metal-card { transition: border-color .3s, box-shadow .3s; }
 .metal-card:hover {
-  border-color: rgba(255,106,0,0.4);
-  box-shadow: 0 8px 40px rgba(255,106,0,0.15);
+  border-color: rgba(67, 76, 86, 0.3);
+  box-shadow: 0 14px 34px -18px rgba(30, 45, 60, 0.35);
 }
 
 /* in components layer so Tailwind utilities (hidden, md:inline-flex, !py-*) can override */
@@ -341,10 +333,7 @@ canvas { display: block; }
   font-weight: 800;
   font-size: clamp(3rem, 7vw, 5.5rem);
   line-height: 1;
-  background: linear-gradient(135deg, #a84300, #FF6A00);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-text);
 }
 
 /* ─── Scrollbar for mobile ──────────────────────────────────────── */

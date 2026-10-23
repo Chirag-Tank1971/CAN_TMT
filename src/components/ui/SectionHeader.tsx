@@ -6,7 +6,7 @@ export function SectionHeader({ id, tag, title, body, center = false }: { id: st
       <p className={`section-tag mb-4 ${center ? 'justify-center' : ''}`} data-reveal>{tag}</p>
       <h2 id={id} className="section-heading text-ink" data-reveal style={{ '--d': '80ms' } as React.CSSProperties}>
         {a}{' '}
-        {b &&<span className="block text-orange-600">{b}</span>}
+        {b && <span className="block">{b}</span>}
       </h2>
       {body && <p className="mt-5 max-w-xl text-steel-300" data-reveal style={{ '--d': '160ms' } as React.CSSProperties}>{body}</p>}
     </header>

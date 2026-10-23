@@ -20,8 +20,7 @@ export function Applications() {
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" role="list">
           {a.items.map((item, i) => (
             <li key={item.title} data-reveal style={{ '--d': `${i * 80}ms` } as React.CSSProperties}>
-              <div tabIndex={0} className="app-card group metal-card rounded-sm h-72 lg:h-96 p-6 flex flex-col justify-between overflow-hidden cursor-default focus-visible:outline-orange-400">
-                <span className="font-barlow text-sm tracking-widest text-steel-500">0{i + 1}</span>
+              <div tabIndex={0} className="app-card group metal-card rounded-sm h-64 lg:h-80 p-6 flex flex-col justify-between overflow-hidden cursor-default focus-visible:outline-orange-400">
                 <Icon name={ICONS[i]} className="w-20 h-20 text-steel-300 group-hover:text-orange-600 group-focus:text-orange-600 transition-colors duration-500 mx-auto" />
                 <div>
                   <h3 className="font-barlow font-700 text-2xl uppercase text-ink">{item.title}</h3>

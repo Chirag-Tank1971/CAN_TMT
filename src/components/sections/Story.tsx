@@ -190,6 +190,8 @@ export function Story() {
         fetchPriority="high"
         className={`absolute inset-0 w-full h-full object-cover object-[70%_50%] transition-opacity duration-700 ${ready ? 'opacity-0' : 'opacity-60'}`}
       />
+      {/* cool galvanised pool of light so silver steel has something to sit on (white alone washes it out) */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_45%_at_50%_32%,#e3e8ee_0%,#f1f4f7_45%,transparent_75%)] lg:bg-[radial-gradient(ellipse_45%_55%_at_68%_50%,#e3e8ee_0%,#f1f4f7_45%,transparent_75%)]" aria-hidden="true" />
       <div className="absolute inset-0" aria-hidden="true">
         {mountCanvas && (
           <Suspense fallback={null}>
