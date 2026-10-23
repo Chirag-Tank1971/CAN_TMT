@@ -12,6 +12,7 @@
 
 /* ─── Custom Properties ─────────────────────────────────────────── */
 :root {
+  color-scheme: only light;
   --color-bg: #FFFFFF;
   --color-accent: #FF6A00;
   --color-accent-dim: rgba(255, 106, 0, 0.15);
