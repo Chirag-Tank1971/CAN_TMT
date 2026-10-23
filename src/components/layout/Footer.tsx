@@ -39,7 +39,7 @@ export function Footer() {
               <li className="text-steel-500">{site.serviceArea}</li>
             </ul>
             <a href={waLink(t.wa.general)} target="_blank" rel="noopener noreferrer"
-              className="mt-5 inline-flex font-barlow font-700 text-sm tracking-widest uppercase text-[#25D366] hover:text-[#4be08a]">
+              className="mt-5 inline-flex font-barlow font-700 text-sm tracking-widest uppercase text-[#0f7a40] hover:text-[#0a5c30]">
               {t.hero.ctaSecondary} →
             </a>
           </address>

@@ -22,7 +22,7 @@ export function Brands() {
                 href={waLink(b.waMsg.replace('{brand}', brand.name))}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative flex flex-col justify-between gap-6 h-full min-h-44 sm:min-h-52 p-5 sm:p-8 bg-paper hover:bg-paper-50 transition-colors"
+                className="group relative flex flex-col justify-between gap-6 h-full min-h-44 sm:min-h-52 p-5 sm:p-8 bg-paper hover:bg-paper-100 transition-colors"
               >
                 <span className="flex items-start justify-between gap-2">
                   <span className="font-barlow text-sm tracking-widest text-steel-500">0{i + 1}</span>

@@ -4,13 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        // light theme: page/card surfaces (warm off-white) and the text colour
+        // white theme: page/card surfaces (white + cool light greys) and the text colour
         paper: {
-          DEFAULT: '#F6F4EF',
+          DEFAULT: '#FFFFFF',
           50: '#FFFFFF',
-          100: '#EFECE6',
-          200: '#F6F4EF',
-          300: '#EFECE6',
+          100: '#F4F6F8',
+          200: '#FFFFFF',
+          300: '#F4F6F8',
         },
         ink: '#15171A',
         orange: {

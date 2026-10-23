@@ -12,7 +12,7 @@
 
 /* ─── Custom Properties ─────────────────────────────────────────── */
 :root {
-  --color-bg: #F6F4EF;
+  --color-bg: #FFFFFF;
   --color-accent: #FF6A00;
   --color-accent-dim: rgba(255, 106, 0, 0.15);
   --color-accent-text: #a84300; /* orange for text on light backgrounds (≥4.5:1); #FF6A00 is only for fills/lines */
@@ -114,7 +114,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Metal Card ────────────────────────────────────────────────── */
 .metal-card {
-  background: linear-gradient(145deg, #ffffff, #f1eee8);
+  background: linear-gradient(145deg, #ffffff, #f6f7f9);
   border: 1px solid rgba(67, 76, 86, 0.14);
   position: relative;
   overflow: hidden;
