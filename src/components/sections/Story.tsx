@@ -46,14 +46,17 @@ export function Story() {
   const trigger = useRef<ScrollTrigger | null>(null);
   const onReady = useCallback(() => setReady(true), []);
 
-  // Start WebGL on the first interaction: the headline + fallback image paint immediately and the heavy
-  // 3D init never competes with page load on slow phones. Visitors who never interact keep the still image.
+  // Start WebGL once the page has loaded and the browser is idle (or on the first interaction, if sooner):
+  // the headline + still image paint first, and the bar is usually built before anyone scrolls.
   useEffect(() => {
     if (!webgl) return;
-    const events = ['pointerdown', 'pointermove', 'touchstart', 'wheel', 'keydown', 'scroll'] as const;
+    const events = ['pointerdown', 'touchstart', 'wheel', 'keydown', 'scroll'] as const;
+    let idle = 0;
     const start = () => { setMountCanvas(true); stop(); };
-    const stop = () => events.forEach((e) => removeEventListener(e, start));
+    const stop = () => { events.forEach((e) => removeEventListener(e, start)); cancelIdleCallback?.(idle); removeEventListener('load', onLoad); };
+    const onLoad = () => { idle = requestIdleCallback ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 300) as unknown as number; };
     events.forEach((e) => addEventListener(e, start, { passive: true }));
+    if (document.readyState === 'complete') onLoad(); else addEventListener('load', onLoad);
     return stop;
   }, [webgl]);
 
@@ -208,7 +211,7 @@ export function Story() {
         width={1280}
         height={720}
         fetchPriority="high"
-        className={`absolute inset-0 w-full h-full object-cover object-[70%_50%] transition-opacity duration-700 ${ready ? 'opacity-0' : 'opacity-60'}`}
+        className={`absolute inset-0 w-full h-full object-cover object-[70%_50%] transition-opacity duration-700 ${ready ? 'opacity-0' : 'opacity-100'}`}
       />
       {/* cool galvanised pool of light so silver steel has something to sit on (white alone washes it out) */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_45%_at_50%_32%,#e3e8ee_0%,#f1f4f7_45%,transparent_75%)] lg:bg-[radial-gradient(ellipse_45%_55%_at_68%_50%,#e3e8ee_0%,#f1f4f7_45%,transparent_75%)]" aria-hidden="true" />

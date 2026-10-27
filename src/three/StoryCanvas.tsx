@@ -93,9 +93,9 @@ export default function StoryCanvas({ tier, active, onReady }: { tier: Tier; act
   return (
     <Canvas
       frameloop={active ? 'always' : 'never'}
-      dpr={[1, 1.5]}
+      dpr={[1, tier === 'high' ? 1.25 : 1.5]}
       camera={{ fov: 30, near: 0.1, far: 200, position: [story.cx, story.cy, story.cz] }}
-      gl={{ antialias: tier === 'high', powerPreference: 'high-performance', alpha: true }}
+      gl={{ antialias: false, powerPreference: 'high-performance', alpha: true }}
       onCreated={({ gl }) => { gl.localClippingEnabled = true; }}
       aria-hidden="true"
     >

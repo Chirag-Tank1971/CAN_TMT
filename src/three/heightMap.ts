@@ -18,7 +18,7 @@ const CIRC = 2 * Math.PI * C.radius;
 // Upgrade to an OffscreenCanvas worker if generation still shows up as jank on low-end devices.
 const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0));
 
-/** Separable box blur, run twice (≈ gaussian). Wraps around the circumference, clamps along the length. */
+/** Separable box blur, run twice (≈ gaussian). Wraps in both directions (the map is one periodic tile). */
 function blur(src: Float32Array, w: number, h: number, r: number) {
   r = Math.max(1, Math.round(r));
   let a = src.slice();
@@ -36,10 +36,10 @@ function blur(src: Float32Array, w: number, h: number, r: number) {
     }
     for (let x = 0; x < w; x++) {
       let sum = 0;
-      for (let y = -r; y <= r; y++) sum += b[Math.min(h - 1, Math.max(0, y)) * w + x];
+      for (let y = -r; y <= r; y++) sum += b[((y % h) + h) % h * w + x];
       for (let y = 0; y < h; y++) {
         a[y * w + x] = sum / n;
-        sum += b[Math.min(h - 1, y + r + 1) * w + x] - b[Math.max(0, y - r) * w + x];
+        sum += b[((y + r + 1) % h) * w + x] - b[((y - r) % h + h) % h * w + x];
       }
     }
   }
@@ -66,9 +66,13 @@ function newCanvas(w: number, h: number) {
 export async function buildBarMaps(mapW: number): Promise<BarMaps> {
   await document.fonts.load(C.embossFont.replace('1px', '40px')).catch(() => {});
 
+  // The pattern repeats every embossEvery units (a whole number of rib pitches), so only one tile is
+  // generated and then repeated along the bar: ~2.3x less work than building the full length.
   const k = mapW / CIRC;
   const w = mapW;
-  const h = Math.round(C.length * k);
+  const T = C.embossEvery;
+  const h = Math.round(T * k);
+  const fullH = Math.round(C.length * k);
 
   // ── Emboss bands: lettering + square mark, measured first so ribs can leave room
   const fontPx = (C.embossSize * k) / 0.7; // cap height ≈ 0.7em
@@ -79,9 +83,10 @@ export async function buildBarMaps(mapW: number): Promise<BarMaps> {
   const gapPx = 0.25 * k;
   const bandPx = markPx + gapPx + text.measureText(C.embossText).width;
   const bands: [number, number][] = [];
-  for (let zc = C.embossEvery / 2; zc < C.length; zc += C.embossEvery) {
+  {
+    const zc = T / 2;
     const z0 = zc * k - bandPx / 2;
-    bands.push([z0 / k - 0.15, (z0 + bandPx) / k + 0.15]);
+    for (const o of [-T, 0, T]) bands.push([z0 / k - 0.15 + o, (z0 + bandPx) / k + 0.15 + o]);
     // Glyph "up" points to -s and the baseline runs along +z so the text reads left→right
     // when the bar lies along +X with this face toward the camera (the transform mirrors canvas space on purpose).
     text.setTransform(0, 1, 1, 0, (CIRC / 4) * k, z0);
@@ -103,7 +108,7 @@ export async function buildBarMaps(mapW: number): Promise<BarMaps> {
   const ribs = newCanvas(w, h);
   ribs.setTransform(k, 0, 0, k, 0, 0);
   ribs.fillStyle = `rgb(${(255 * C.longRibHeight) / C.ribHeight | 0},0,0)`;
-  for (const s of [0, CIRC / 2, CIRC]) ribs.fillRect(s - C.longRibWidth / 2, 0, C.longRibWidth, C.length);
+  for (const s of [0, CIRC / 2, CIRC]) ribs.fillRect(s - C.longRibWidth / 2, 0, C.longRibWidth, T);
 
   ribs.fillStyle = '#fff';
   const cot = 1 / Math.tan((C.ribAngle * Math.PI) / 180);
@@ -113,7 +118,7 @@ export async function buildBarMaps(mapW: number): Promise<BarMaps> {
     const dz = (face ? -1 : 1) * cot * (s1 - s0);
     const len = Math.hypot(s1 - s0, dz);
     const nx = -dz / len, ny = (s1 - s0) / len;
-    for (let z0 = -2 + face * C.ribSpacing / 2; z0 < C.length + 2; z0 += C.ribSpacing) {
+    for (let z0 = -2 + face * C.ribSpacing / 2; z0 < T + 2; z0 += C.ribSpacing) {
       const lo = Math.min(z0, z0 + dz) - C.ribWidth, hi = Math.max(z0, z0 + dz) + C.ribWidth;
       if (face === 0 && bands.some(([a, b]) => hi > a && lo < b)) continue;
       const N = 28;
@@ -149,7 +154,7 @@ export async function buildBarMaps(mapW: number): Promise<BarMaps> {
     for (let x = 0; x < w; x++) {
       const i = y * w + x;
       const dx = (heights[y * w + (x + 1) % w] - heights[y * w + (x - 1 + w) % w]) / step;
-      const dy = (heights[Math.min(h - 1, y + 1) * w + x] - heights[Math.max(0, y - 1) * w + x]) / step;
+      const dy = (heights[((y + 1) % h) * w + x] - heights[((y - 1 + h) % h) * w + x]) / step;
       const inv = 1 / Math.hypot(dx, dy, 1);
       data[i * 4] = (-dx * inv * 0.5 + 0.5) * 255;
       data[i * 4 + 1] = (-dy * inv * 0.5 + 0.5) * 255;
@@ -157,7 +162,15 @@ export async function buildBarMaps(mapW: number): Promise<BarMaps> {
       data[i * 4 + 3] = Math.min(1, Math.max(0, (wide[i] - heights[i]) / (C.ribHeight * 0.3))) * 255;
     }
   }
-  const normalMap = new THREE.DataTexture(data, w, h, THREE.RGBAFormat);
+  // repeat the tile along the full bar length
+  const fullHeights = new Float32Array(w * fullH), fullData = new Uint8Array(w * fullH * 4);
+  for (let y = 0; y < fullH; y++) {
+    const src = (y % h) * w;
+    fullHeights.set(heights.subarray(src, src + w), y * w);
+    fullData.set(data.subarray(src * 4, (src + w) * 4), y * w * 4);
+  }
+
+  const normalMap = new THREE.DataTexture(fullData, w, fullH, THREE.RGBAFormat);
   normalMap.wrapS = THREE.RepeatWrapping;
   normalMap.magFilter = THREE.LinearFilter;
   normalMap.minFilter = THREE.LinearMipmapLinearFilter;
@@ -165,5 +178,5 @@ export async function buildBarMaps(mapW: number): Promise<BarMaps> {
   normalMap.anisotropy = 8;
   normalMap.needsUpdate = true;
 
-  return { heights, w, h, normalMap };
+  return { heights: fullHeights, w, h: fullH, normalMap };
 }
